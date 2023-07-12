@@ -1,10 +1,18 @@
 .header {
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     box-sizing: border-box;
     background-color: var(--color-lending);
     padding: 18px 70px;
+}
+
+.header_lending {
+    background-color: var(--color-lending);
+}
+
+.header_primary {
+    background-color: var(--color-primary);
 }
 
 .header__container {
@@ -18,34 +26,40 @@
     height: 38px;
 }
 
-.header__link {
-    transition: opacity .2s ease;
-    text-decoration: none;
+.header__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    color: #FFF;
-    text-align: right;
+
     font-family: Inter;
     font-size: 12px;
     font-style: normal;
     font-weight: 500;
     line-height: 16px;
+
+    transition: opacity .3s ease;
+    text-decoration: none;
+    margin-left: 50px;
+
 }
 
-.header__link:hover {
-    opacity: .6;
+.header__button_signup {
+    color: #fff;
 }
 
-.header__button {
+.header__button_signin {
+    color: #000;
     border: none;
     width: 76px;
     height: 32px;
     border-radius: 3px;
     background: var(--color-info);
-    margin-left: 50px;
 }
 
-.header__button .header__link {
-    color: #000;
+
+.header__button:hover {
+    opacity: .6;
 }
 
 @media screen and (max-width: 768px) {
@@ -64,12 +78,12 @@
     }
 
     .header__button {
-        width: 54px;
-        height: 26px;
+        font-size: 10px;
         margin-left: 14px;
     }
 
-    .header__link {
-        font-size: 10px;
+    .header__button_signin {
+        width: 54px;
+        height: 26px;
     }
 }
