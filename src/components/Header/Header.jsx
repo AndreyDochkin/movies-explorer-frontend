@@ -1,26 +1,50 @@
 import React from "react";
-import { Link, Route, Routes, Navigate } from "react-router-dom";
+import { Link, NavLink, Route, Routes, Navigate, useLocation } from "react-router-dom";
 import logoPath from '../../images/logo.svg';
+import burgerPath from '../../images/burger_menu_icon.svg';
 import Navigation from "../Navigation/Navigation";
 
 function Header() {
+    const isLoggedIn = useLocation().pathname === '/';
+    // const isLoggedIn = false;
+
     return (
-        <header className="header">
-            <img src={logoPath} className='header__logo' alt="Логотип" />
-            <div className="header__container">
+        <header className={`header ${isLoggedIn ? 'header_lending' : 'header_primary'}`} >
+            <img src={logoPath} className='header__logo' alt="logo" />
+             <div className="header__container">
+               {isLoggedIn ? (
+                    <>
+                        <Link to="/sign-up" className="header__button header__button_signup">
+                            Регистрация
+                        </Link>
+                        <Link to="/sign-in" className="header__button header__button_signin">
+                            Войти
+                        </Link>
+                    </>
+                ) : (
+                    <>
+                        
+                        <img src={burgerPath} className='header__burger' alt="burger menu" />
 
-                <Link to="/sign-up" className="header__button header__button_signup">
-                    Регистрация
-                </Link>
-                <Link to="/sign-in" className="header__button header__button_signin">
-                    Войти
-                </Link>
+                        <nav className="header__nav">
+                            <NavLink className="nav__link" to="/movies">
+                                Фильмы
+                            </NavLink>
 
+                            <NavLink className="nav__link" to="/saved-movies">
+                                Сохранённые фильмы
+                            </NavLink>
+                        </nav>
+
+                        <Link to="/account" className="header__button header__button_account">
+                            Аккаунт
+                        </Link>
+                    </>
+                )} 
             </div>
-            {/* <Navigation /> */}
-        </header>
-
+        </header >
     );
 }
 
 export default Header;
+
