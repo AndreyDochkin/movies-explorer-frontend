@@ -3,33 +3,33 @@
 
   --color-lending: #073042;
   --color-primary: #fff;
-  --color-secondary: #F5F5F5;
+  --color-secondary: #F2F2F2;
   --color-info: #2BE080;
   --color-action: #3456F3;
 
-  border: 1px solid rgb(0, 255, 183);
   box-sizing: border-box;
 }
 
 .app {
   background-color: var(--color-primary);
+
   min-height: 100vh;
-  min-width: calc(320px - 18px);
+  min-width: 300px;
   width: 100%;
+
   display: flex;
   align-items: center;
   flex-direction: column;
-  position: relative;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .app {
-    background-color: rgba(10, 175, 226, 0.3);
+    /* background-color: rgba(10, 175, 226, 0.3); */
   }
 }
 
-@media (max-width: 320px) {
+@media screen and (max-width: 320px) {
   .app {
-    background-color: rgba(76, 251, 1, 0.3);
+    /* background-color: rgba(76, 251, 1, 0.3); */
   }
 }
