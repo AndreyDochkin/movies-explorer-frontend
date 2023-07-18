@@ -10,9 +10,13 @@ function Header() {
 
     return (
         <header className={`header ${isLoggedIn ? 'header_lending' : 'header_primary'}`} >
-            <img src={logoPath} className='header__logo' alt="logo" />
-             <div className="header__container">
-               {isLoggedIn ? (
+            <Link to='/' className='header__logo'>
+                <img src={logoPath} alt="logo" />
+            </Link>
+            {/* <img src={logoPath} className='header__logo' alt="logo" /> */}
+
+            <div className="header__container">
+                {isLoggedIn ? (
                     <>
                         <Link to="/sign-up" className="header__button header__button_signup">
                             Регистрация
@@ -23,7 +27,7 @@ function Header() {
                     </>
                 ) : (
                     <>
-                        
+
                         <img src={burgerPath} className='header__burger' alt="burger menu" />
 
                         <nav className="header__nav">
@@ -40,7 +44,7 @@ function Header() {
                             Аккаунт
                         </Link>
                     </>
-                )} 
+                )}
             </div>
         </header >
     );
