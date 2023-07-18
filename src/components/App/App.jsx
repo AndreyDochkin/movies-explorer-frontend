@@ -5,8 +5,6 @@ import Header from '../Header/Header';
 import Promo from "../Promo/Promo";
 import AboutProject from "../AboutProject/AboutProject";
 import Techs from "../Techs/Techs";
-import Profile from "../Profile/Profile";
-import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
 import Portfolio from "../Portfolio/Portfolio";
 
@@ -19,6 +17,7 @@ function App() {
       <AboutProject />
       <Techs />
       <Portfolio />
+      <Footer />
 
     </div>
   );
