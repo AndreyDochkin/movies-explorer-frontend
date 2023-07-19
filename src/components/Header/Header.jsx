@@ -40,7 +40,7 @@ function Header() {
                             </NavLink>
                         </nav>
 
-                        <Link to="/account" className="header__button header__button_account">
+                        <Link to="/profile" className="header__button header__button_account">
                             Аккаунт
                         </Link>
                     </>
