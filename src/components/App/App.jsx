@@ -5,6 +5,7 @@ import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
 import SearchForm from '../SearchForm/SearchForm';
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Header />
       {/* <Main /> */}
       <SearchForm />
+      <MoviesCardList />
       <Footer />
     </div>
   );
