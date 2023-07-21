@@ -9,9 +9,9 @@ function SearchForm() {
             </form>
 
             <div className="slider__wrapper">
-                <label class="slider-checkbox">
+                <label className="slider-checkbox">
                     <input type="checkbox" />
-                    <span class="slider"></span>
+                    <span className="slider"></span>
                 </label>
                 <p className="slider__text">Короткометражки</p>
             </div>

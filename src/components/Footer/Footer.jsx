@@ -9,7 +9,7 @@ function Footer() {
             <div className='footer__line'></div>
             <div className='footer__container'>
                 <p className='footer__date'>© {currentYear}</p>
-                <nav class="footer__nav">
+                <nav className="footer__nav">
                     <a className='footer__link' href='https://practicum.yandex.ru/'>Яндекс.Практикум</a>
                     <a className='footer__link' href='https://github.com/AndreyDochkin'>GitHub</a>
                 </nav>
