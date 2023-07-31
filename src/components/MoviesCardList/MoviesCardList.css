@@ -19,6 +19,31 @@
     justify-content: center;
 }
 
+.movies__button-more {
+    width: 320px;
+    height: 36px;
+    border-radius: 6px;
+    border: none;
+    background: #F9F9F9;
+
+    margin: 80px auto;
+
+
+    text-align: center;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+
+    transition: all .3s ease;
+    cursor: pointer;
+}
+
+.movies__button-more:hover {
+    opacity: .6;
+}
+
 @media (max-width: 768px) {
     .movies__container {
         padding: 70px 30px 30px;
@@ -41,4 +66,9 @@
         gap: 16px 0px;
     }
 
+    .movies__button-more {
+        width: 240px;
+        height: 36px;
+        margin: 90px auto;
+    }
 }

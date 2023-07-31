@@ -1,46 +1,66 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
+import movies from '../../utils/mockMoviesListArray';
 function MoviesCardList() {
-    const movies = [
-        {
-            _id: 1,
-            owner: 1,
-            nameRU: '38-я параллель',
-            nameEN: 'Tae Guk Gi: The Brotherhood of War',
-            country: 'Корея',
-            director: 'Кан Джегю',
-            duration: 150,
-            year: 2004,
-            description: 'Эпический военный фильм режиссёра Кан Джегю, рассказывающий об истории двух братьев во время Корейской войны.',
-            image: 'https://m.media-amazon.com/images/M/MV5BMTc1MDYxMjk1Ml5BMl5BanBnXkFtZTcwMjE4MzcyMQ@@._V1_.jpg',
-            trailerLink: 'https://www.youtube.com/watch?v=nm2aZz45pGE&ab_channel=BlazingTrailers',
-            thumbnail: 'https://m.media-amazon.com/images/M/MV5BMTc1MDYxMjk1Ml5BMl5BanBnXkFtZTcwMjE4MzcyMQ@@._V1_.jpg',
+    const [moviesDisplay, setMoviesDisplay] = useState([]);
+    const [totalDisplay, setTotalDisplay] = useState(12); //total amount of displaed movies
+    const [deltaDisplay, setDeltaDisplay] = useState(12); //grower for amount of dislaped movies
 
-        },
-        {
-            _id: 2,
-            owner: 1,
-            nameRU: 'Властелин колец: Возвращение короля',
-            nameEN: 'The Lord of the Rings: The Return of the King',
-            country: 'США, Новая Зеландия',
-            director: 'Питер Джексон',
-            duration: 201,
-            year: 2003,
-            description: 'Завершающая часть трилогии по мотивам романа Дж. Р. Р. Толкина. Битва за Средиземье достигает своего разгара, и Фродо вместе с верными друзьями должен уничтожить Кольцо Всевластья.',
-            image: 'https://images.moviesanywhere.com/45bc0ec075bfc0b4d8f184a7cc5bf993/876ed805-83b1-4387-b0d0-62d08c36536d.jpg',
-            trailerLink: 'https://www.youtube.com/watch?v=r5X-hFf6Bwo&ab_channel=Movieclips',
-            thumbnail: 'https://images.moviesanywhere.com/45bc0ec075bfc0b4d8f184a7cc5bf993/876ed805-83b1-4387-b0d0-62d08c36536d.jpg',
-        }];
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+    const handleResize = () => {
+        setScreenWidth(window.innerWidth);
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (screenWidth > 1200) {
+            setTotalDisplay(12);
+            setDeltaDisplay(12);
+        } else if (screenWidth <= 1200 && screenWidth > 600) {
+            setTotalDisplay(8);
+            setDeltaDisplay(8);
+
+        } else {
+            setTotalDisplay(4);
+            setDeltaDisplay(4);
+        }
+    }, [screenWidth])
+
+
+    useEffect(() => {
+        if (movies.length) setMoviesDisplay(movies.slice(0, totalDisplay));
+    }, [totalDisplay]);
+
+    function handleClickMoreMovies() {
+        console.log('click');
+        setTotalDisplay(totalDisplay + deltaDisplay);
+    }
 
     return (
         <section className="movies__container">
             <div className="movies__list">
-                {movies.map((movie) => (
+                {moviesDisplay.map((movie) => (
                     <MoviesCard
                         movie={movie}
                         key={movie._id} />
                 ))}
             </div>
+
+            <button
+                className="movies__button-more"
+                onClick={handleClickMoreMovies}
+            >
+                Ещё
+            </button>
+
         </section>
 
     )
