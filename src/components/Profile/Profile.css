@@ -110,6 +110,7 @@
 }
 
 .profile__button-exit {
+    padding: 0;
     color: #FF004D;
     text-align: center;
     font-size: 13px;
@@ -124,6 +125,7 @@
 }
 
 .profile__button-save {
+    padding: 0;
     color: #FFF;
     text-align: center;
     font-size: 14px;
@@ -138,6 +140,11 @@
     border: none;
 
     background: #3456F3;
+    transition: opacity .3s ease;
+}
+
+.profile__button-save:hover{
+    opacity: 0.6;
 }
 
 .profile__button-save_disabled {
