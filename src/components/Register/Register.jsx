@@ -19,7 +19,7 @@ function Register() {
                 <img src={logoPath} alt="logo" />
             </Link>
 
-            <h2 className="register__title">Регистрация</h2>
+            <h2 className="register__title">Добро пожаловать!</h2>
             <form onSubmit={handleSubmit} className="register__form">
                 <label for='name' className="register__label">Имя</label>
                 <input
