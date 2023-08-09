@@ -10,15 +10,17 @@ import Profile from "../Profile/Profile";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 import NotFound from "../NotFound/NotFound";
+import Preloader from "../Preloader/Preloader";
 
 
 function App() {
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <div className="app">
-      {/* <Header /> */}
 
       <Routes>
-        {['/', 'movies', '/saved-movies', 'profile']
+        {['/', '/movies', '/saved-movies']
           .map((path, index) => <Route exect path={path} key={index} element={<Header />} />)}
       </Routes>
 
@@ -28,14 +30,15 @@ function App() {
         <Route path="/movies" element={
           <>
             <SearchForm />
-            <MoviesCardList />
+            {!isLoading ? <MoviesCardList /> :  <Preloader />}
+           
           </>
 
         } />
         <Route path="/saved-movies" element={
           <>
             <SearchForm />
-            <MoviesCardList />
+            {!isLoading ? <MoviesCardList /> :  <Preloader />}
           </>
 
         } />
@@ -51,7 +54,7 @@ function App() {
       </Routes>
 
       <Routes>
-        {['/', 'movies', '/saved-movies']
+        {['/', '/movies', '/saved-movies']
           .map((path, index) => <Route exect path={path} key={index} element={<Footer />} />)}
       </Routes>
 
