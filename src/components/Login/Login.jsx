@@ -52,7 +52,7 @@ function Login() {
 
                 <div className="login__line" >
                 <span className='login__text'>Ещё не зарегистрированы?</span>
-                <Link to="/sign-in" className="login__link">Регистрация</Link>
+                <Link to="/sign-up" className="login__link">Регистрация</Link>
                 </div>
                 
 

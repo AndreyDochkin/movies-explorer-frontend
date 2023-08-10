@@ -45,8 +45,8 @@ function Profile() {
                         className="profile__button-exit">
                         Выйти из аккаунта
                     </button>
-                    {/* <div className='profile__error'>При обновлении профиля произошла ошибка.</div>
-                    <button
+                    {/* <div className='profile__error'>При обновлении профиля произошла ошибка.</div> */}
+                    {/* <button
                         type="submit"
                         className="profile__button-save">
                         Сохранить
