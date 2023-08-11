@@ -20,7 +20,8 @@
 }
 
 .movies__button-more {
-    width: 320px;
+    max-width: 320px;
+    width: 100%;
     height: 36px;
     border-radius: 6px;
     border: none;
@@ -67,7 +68,7 @@
     }
 
     .movies__button-more {
-        width: 240px;
+        max-width: 240px;
         height: 36px;
         margin: 90px auto;
     }
