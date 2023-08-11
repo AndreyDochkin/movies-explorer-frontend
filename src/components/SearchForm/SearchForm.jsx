@@ -8,10 +8,10 @@ function SearchForm() {
                 <button className="search__button" type="submit" />
             </form>
 
-            <div className="slider__wrapper">
-                <label className="slider-checkbox">
+            <div className="slider">
+                <label className="slider__checkbox">
                     <input type="checkbox" />
-                    <span className="slider"></span>
+                    <span className="slider__element"></span>
                 </label>
                 <p className="slider__text">Короткометражки</p>
             </div>

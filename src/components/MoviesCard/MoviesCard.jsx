@@ -16,18 +16,18 @@ function MoviesCard(props) {
     }
 
     return (
-        <div className="movie__item">
+        <div className="movie-item">
 
-            <div className="movie__header">
-                <div className="movie__text">
-                    <h2 className="movie__title">{props.movie.nameRU}</h2>
-                    <p className="movie__duration">{props.movie.duration}</p>
+            <div className="movie-item__header">
+                <div className="movie-item__text">
+                    <h2 className="movie-item__title">{props.movie.nameRU}</h2>
+                    <p className="movie-item__duration">{props.movie.duration}</p>
                 </div>
 
-                <button className={`movie__save ${isSaved && 'movie__save_active'}`} type="button" onClick={handleSave} />
+                <button className={`movie-item__save ${isSaved && 'movie-item__save_active'}`} type="button" onClick={handleSave} />
             </div>
             
-            <img className="movie__image" src={props.movie.image} alt={props.movie.nameRU}  onClick={handleClick} />
+            <img className="movie-item__image" src={props.movie.image} alt={props.movie.nameRU}  onClick={handleClick} />
         </div>
     );
 }

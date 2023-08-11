@@ -45,7 +45,7 @@ function MoviesCardList() {
     }
 
     return (
-        <section className="movies__container">
+        <section className="movies">
             <div className="movies__list">
                 {moviesDisplay.map((movie) => (
                     <MoviesCard

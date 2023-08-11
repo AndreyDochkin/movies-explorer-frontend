@@ -1,4 +1,4 @@
-.movies__container {
+.movies {
     width: 100%;
     display: flex;
     align-items: center;
@@ -45,7 +45,7 @@
 }
 
 @media (max-width: 768px) {
-    .movies__container {
+    .movies {
         padding: 70px 30px 30px;
     }
 
@@ -57,7 +57,7 @@
 
 @media (max-width: 320px) {
 
-    .movies__container {
+    .movies {
         padding: 40px 10px 30px;
     }
 

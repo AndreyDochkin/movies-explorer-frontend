@@ -49,7 +49,7 @@ function Header() {
                                 </div>
                             {/* </>) :
                             (<> */}
-                                <nav className="header__nav">
+                                <nav className="nav">
                                     <NavLink to="/movies" className="nav__link">Фильмы</NavLink>
                                     <NavLink to="/saved-movies" className="nav__link" >Сохранённые фильмы</NavLink>
                                 </nav>
