@@ -187,6 +187,7 @@
 
     .portfolio__article-img {
         max-width: 255px;
+        object-fit: contain;
     }
 
     .portfolio__list-link {

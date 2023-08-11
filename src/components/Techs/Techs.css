@@ -82,7 +82,7 @@
 .techs__list-items {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 10px;
 
     padding: 0;
@@ -177,6 +177,11 @@
     .techs__list {
         padding: 0 0 0 52px;
     }
+
+    .techs__list-items {
+        justify-content: flex-start;
+    }
+
     .techs__list-item {
         width: 84px;
         height: 57px;

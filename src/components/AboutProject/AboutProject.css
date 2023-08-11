@@ -130,7 +130,7 @@
 
 }
 
-@media (max-width: 320px) {
+@media (max-width: 600px) {
     .about {
         padding: 70px 18px;
     }

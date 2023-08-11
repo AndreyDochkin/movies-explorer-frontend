@@ -50,7 +50,7 @@
     }
 
     .movies__list {
-        grid-template-columns: repeat(auto-fill, 339px);
+        grid-template-columns: repeat(auto-fill, minmax(300px,339px));
         gap: 36px 30px;
     }
 }
