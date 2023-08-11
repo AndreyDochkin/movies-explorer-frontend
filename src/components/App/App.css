@@ -23,6 +23,10 @@
   flex-direction: column;
 }
 
+main {
+  width: inherit;
+}
+
 @media screen and (max-width: 768px) {
   .app {
     /* background-color: rgba(10, 175, 226, 0.3); */

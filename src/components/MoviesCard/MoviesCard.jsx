@@ -16,7 +16,7 @@ function MoviesCard(props) {
     }
 
     return (
-        <div className="movie-item">
+        <li className="movie-item">
 
             <div className="movie-item__header">
                 <div className="movie-item__text">
@@ -28,7 +28,7 @@ function MoviesCard(props) {
             </div>
             
             <img className="movie-item__image" src={props.movie.image} alt={props.movie.nameRU}  onClick={handleClick} />
-        </div>
+        </li>
     );
 }
 

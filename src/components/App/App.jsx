@@ -25,22 +25,21 @@ function App() {
       </Routes>
 
       <Routes>
+
         <Route exect path="/" element={<Main />} />
 
         <Route path="/movies" element={
-          <>
+          <main>
             <SearchForm />
-            {!isLoading ? <MoviesCardList /> :  <Preloader />}
-           
-          </>
+            {!isLoading ? <MoviesCardList /> : <Preloader />}
+          </main>
 
         } />
         <Route path="/saved-movies" element={
-          <>
+          <main>
             <SearchForm />
-            {!isLoading ? <MoviesCardList /> :  <Preloader />}
-          </>
-
+            {!isLoading ? <MoviesCardList /> : <Preloader />}
+          </main>
         } />
 
         <Route path="/profile" element={<Profile />} />

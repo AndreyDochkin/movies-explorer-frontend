@@ -46,15 +46,15 @@ function MoviesCardList() {
 
     return (
         <section className="movies">
-            <div className="movies__list">
+            <ul className="movies__list">
                 {moviesDisplay.map((movie) => (
                     <MoviesCard
                         movie={movie}
                         key={movie._id} />
                 ))}
-            </div>
+            </ul>
 
-            <button
+            <button type="button"
                 className="movies__button-more"
                 onClick={handleClickMoreMovies}
             >

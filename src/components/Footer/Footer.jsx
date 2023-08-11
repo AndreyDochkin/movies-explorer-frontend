@@ -4,7 +4,7 @@ function Footer() {
     const date = new Date();
     const currentYear = date.getFullYear();
     return (
-        <section className='footer'>
+        <footer className='footer'>
             <h3 className='footer__title'>Учебный проект Яндекс.Практикум х MovieMatchUp.</h3>
             <div className='footer__line'></div>
             <div className='footer__container'>
@@ -15,7 +15,7 @@ function Footer() {
                 </nav>
             </div>
 
-        </section>
+        </footer>
     );
 }
 

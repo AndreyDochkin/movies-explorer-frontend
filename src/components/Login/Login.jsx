@@ -13,7 +13,7 @@ function Login() {
     }
 
     return (
-        <section className="login">
+        <main className="login">
 
             <Link to='/' className='login__logo'>
                 <img src={logoPath} alt="logo" />
@@ -57,7 +57,7 @@ function Login() {
                 
 
             </form>
-        </section>
+        </main>
     )
 }
 

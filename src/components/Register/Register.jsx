@@ -13,7 +13,7 @@ function Register() {
     }
 
     return (
-        <section className="register">
+        <main className="register">
 
             <Link to='/' className='register__logo'>
                 <img src={logoPath} alt="logo" />
@@ -68,7 +68,7 @@ function Register() {
                 
 
             </form>
-        </section>
+        </main>
     )
 }
 

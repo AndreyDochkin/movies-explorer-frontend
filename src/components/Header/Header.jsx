@@ -25,10 +25,10 @@ function Header() {
             <div className="header__container">
                 {isLoggedIn ? (
                     <>
-                        <Link to="/sign-up" className="header__button header__button_signup">
+                        <Link to="/sign-up" type="button" className="header__button header__button_signup">
                             Регистрация
                         </Link>
-                        <Link to="/sign-in" className="header__button header__button_signin">
+                        <Link to="/sign-in" type="button" className="header__button header__button_signin">
                             Войти
                         </Link>
                     </>
@@ -44,7 +44,7 @@ function Header() {
                                         <NavLink to="/" className="side-menu__link" >Главная</NavLink>
                                         <NavLink to="/movies" className="side-menu__link">Фильмы</NavLink>
                                         <NavLink to="/saved-movies" className="side-menu__link" >Сохранённые фильмы</NavLink>
-                                        <NavLink to="/profile" className="side-menu__account header__button header__button_account">Аккаунт</NavLink>
+                                        <NavLink to="/profile" className="side-menu__account header__button header__button_account" >Аккаунт</NavLink>
                                     </div>
                                 </div>
                             {/* </>) :

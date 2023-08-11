@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 function Profile() {
     return (
-        <section className='profile'>
+        <main className='profile'>
 
             <h1 className="profile__title">{`Привет, ${"Андрей"}!`}</h1>
             <form className="profile__form" name="profile" noValidate>
@@ -53,7 +53,7 @@ function Profile() {
                     </button> */}
                 </div>
             </form>
-        </section>
+        </main>
     );
 }
 
