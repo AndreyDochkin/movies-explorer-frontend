@@ -1,3 +1,6 @@
+.app:has(.not-found){
+       justify-content: center ;
+}
 .not-found {
        display: flex;
        flex-direction: column;

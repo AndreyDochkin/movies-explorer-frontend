@@ -2,10 +2,11 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
+    justify-content: flex-start;
     height: 100vh;
     max-width: 400px;
     width: 100%;
+    margin-top: 70px;
     /* padding: 232px auto; */
 }
 
@@ -88,7 +89,7 @@
     transition: opacity .3s ease;
 
     padding: 0;
-    margin-top: 180px;
+    margin-top: 193px;
     margin-bottom: 16px;
 }
 
@@ -135,6 +136,12 @@
     margin-right: 6px;
 }
 
+@media (max-width: 768px) {
+    .login {
+        margin-top: 230px;
+    }
+}
+
 @media (max-width: 640px) {
     .login {
         max-width: 260px;
@@ -156,4 +163,16 @@
         margin-bottom: 14px;
     }
 
+}
+
+@media (max-width: 320px) {
+    .login {
+        margin-top: 0;
+        padding-top: 56px;
+        padding-bottom: 30px;
+    }
+
+    .login__title {
+        margin: 50px auto 80px;
+    }
 }

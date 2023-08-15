@@ -146,14 +146,18 @@ input:checked+.slider__element:before {
     transform: translateX(16px);
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
     .search {
-        padding: 80px 30px 10px;
+        padding: 73px 30px 10px;
+    }
+
+    .slider{
+        margin-bottom: 50px;
     }
 
 }
 
-@media (min-width: 320px) {
+@media (max-width: 320px) {
     .search {
         padding: 80px 14px 10px;
     }

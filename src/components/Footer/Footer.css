@@ -5,7 +5,7 @@
 
     display: flex;
     flex-direction: column;
-    padding: 80px 70px 20px;
+    padding: 190px 70px 20px;
 }
 
 .footer__title {
@@ -16,6 +16,8 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+
+    margin-bottom: 20px;
 }
 
 .footer__line {
@@ -32,6 +34,7 @@
 }
 
 .footer__date {
+    margin: 0;
     font-size: 13px;
     font-style: normal;
     font-weight: 400;
@@ -64,13 +67,13 @@
 
 @media (max-width: 768px) {
     .footer {
-        padding: 80px 30px 20px;
+        padding: 70px 30px 20px;
     }
 }
 
 @media (max-width: 320px) {
     .footer {
-        padding: 80px 10px 20px;
+        padding: 55px 10px 20px;
     }
 
     .footer__line {

@@ -69,6 +69,7 @@
     height: 32px;
     border-radius: 20px;
     background: var(--color-secondary);
+    margin-left: 0px;
 }
 
 
@@ -90,7 +91,7 @@
 
     color: #000000;
     text-decoration: none;
-    margin-left: 16px;
+    margin-left: 40px;
 }
 
 .header__nav>.active {
@@ -149,24 +150,24 @@
 }
 
 .side-menu__link {
-    color:#000;
+    color: #000;
     text-align: center;
     font-size: 18px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
     text-decoration: none;
-    
+
     box-sizing: border-box;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
 }
 
-.side-menu__container > .active {
-   padding-bottom: 4px;
+.side-menu__container>.active {
+    padding-bottom: 4px;
     border-bottom: 2px solid #000;
 }
 
-.side-menu__account{
+.side-menu__account {
     position: absolute;
     bottom: 90px;
 }
@@ -184,7 +185,7 @@
         display: none;
     }
 
-    .header__nav + .header__button_account {
+    .nav+.header__button_account {
         display: none;
     }
 
@@ -206,6 +207,24 @@
     .header__button_signin {
         width: 54px;
         height: 26px;
+    }
+
+    .header__burger {
+        width: 40px;
+        height: 40px;
+    }
+
+    .side-menu__close {
+        top: 14px;
+        right: 14px;
+    }
+
+    .side-menu__container {
+        padding-top: 144px;
+    }
+
+    .side-menu__link {
+        margin-bottom: 24px;
     }
 }
 

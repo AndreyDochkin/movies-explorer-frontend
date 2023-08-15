@@ -8,7 +8,7 @@ function AboutProject() {
 
             <div className='about__article-container'>
                 <article className='about__article'>
-                    <h3 className='about__article-title'>Дипломный проект включает</h3>
+                    <h3 className='about__article-title'>Дипломный проект включал 5 этапов</h3>
                     <p className='about__article-text'>
                         Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки.
                     </p>

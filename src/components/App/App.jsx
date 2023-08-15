@@ -20,7 +20,7 @@ function App() {
     <div className="app">
 
       <Routes>
-        {['/', '/movies', '/saved-movies']
+        {['/', '/movies', '/saved-movies', '/profile']
           .map((path, index) => <Route exect path={path} key={index} element={<Header />} />)}
       </Routes>
 
