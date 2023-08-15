@@ -80,9 +80,9 @@ const movies = [
         duration: 142,
         year: 1994,
         description: 'The presidencies of Kennedy and Johnson, the events of Vietnam, Watergate, and other historical events unfold through the perspective of an Alabama man with an IQ of 75, whose only desire is to be reunited with his childhood sweetheart.',
-        image: 'https://m.media-amazon.com/images/I/51KbSsKgkVL._AC_.jpg',
+        image: 'https://c4.wallpaperflare.com/wallpaper/539/710/449/movies-forrest-gump-wallpaper-preview.jpg',
         trailerLink: 'https://www.youtube.com/watch?v=bLvqoHBptjg&ab_channel=ParamountMovies',
-        thumbnail: 'https://m.media-amazon.com/images/I/51KbSsKgkVL._AC_.jpg',
+        thumbnail: 'https://c4.wallpaperflare.com/wallpaper/539/710/449/movies-forrest-gump-wallpaper-preview.jpg',
     },
     {
         _id: 7,
@@ -108,9 +108,9 @@ const movies = [
         duration: 155,
         year: 2000,
         description: 'A former Roman General sets out to exact vengeance against the corrupt emperor who murdered his family and sent him into slavery.',
-        image: 'https://m.media-amazon.com/images/I/81TKsGeNrFL._AC_SY679_.jpg',
+        image: 'https://phantom-marca.unidadeditorial.es/652265447f82f08b205e14cc149bcb34/resize/828/f/webp/assets/multimedia/imagenes/2021/09/30/16330136842901.jpg',
         trailerLink: 'https://www.youtube.com/watch?v=Q-b7B8tOAQU&ab_channel=MovieclipsClassicTrailers',
-        thumbnail: 'https://m.media-amazon.com/images/I/81TKsGeNrFL._AC_SY679_.jpg',
+        thumbnail: 'https://phantom-marca.unidadeditorial.es/652265447f82f08b205e14cc149bcb34/resize/828/f/webp/assets/multimedia/imagenes/2021/09/30/16330136842901.jpg',
     },
 ];
 
