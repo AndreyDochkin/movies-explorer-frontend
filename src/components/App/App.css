@@ -1,0 +1,42 @@
+:root {
+  font-family: "Inter", Arial, sans-serif;
+
+  --color-lending: #073042;
+  --color-primary: #fff;
+  --color-secondary: #F2F2F2;
+  --color-info: #2BE080;
+  --color-action: #3456F3;
+
+  box-sizing: border-box;
+}
+
+.app {
+  background-color: var(--color-primary);
+
+  min-height: 100vh;
+  max-width: 1280px;
+  min-width: 300px;
+  width: 100%;
+  margin: 0 auto;
+  
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  flex-direction: column;
+}
+
+main {
+  width: inherit;
+}
+
+@media screen and (max-width: 768px) {
+  .app {
+    /* background-color: rgba(10, 175, 226, 0.3); */
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .app {
+    /* background-color: rgba(76, 251, 1, 0.3); */
+  }
+}
