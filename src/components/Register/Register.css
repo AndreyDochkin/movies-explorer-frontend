@@ -135,6 +135,12 @@
     margin-right: 6px;
 }
 
+@media (max-width: 768px) {
+    .register {
+        margin-top: 205px;
+    }
+}
+
 @media (max-width: 640px) {
     .register {
         max-width: 260px;

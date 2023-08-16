@@ -153,7 +153,7 @@
     background: #F8F8F8;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
     .profile__title {
         margin: 230px auto 50px;
     }

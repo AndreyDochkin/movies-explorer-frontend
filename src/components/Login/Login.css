@@ -175,4 +175,12 @@
     .login__title {
         margin: 50px auto 80px;
     }
+
+    .login__text {
+        font-size: 12px;
+    }
+
+    .login__button {
+        margin-top: 282px;
+    }
 }

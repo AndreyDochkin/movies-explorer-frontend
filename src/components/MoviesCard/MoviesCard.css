@@ -30,6 +30,10 @@
     background-image: url('../../images/save_active_icon.svg');
 }
 
+.movie-item__delete{
+    background-image: url('../../images/delete_icon.svg');
+}
+
 .movie-item__header {
     display: flex;
     flex-direction: row;

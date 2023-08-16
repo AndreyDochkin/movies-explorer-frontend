@@ -112,6 +112,7 @@
     }
 
     .about__article-container {
+        gap: 30px;
         margin-bottom: 80px;
     }
 

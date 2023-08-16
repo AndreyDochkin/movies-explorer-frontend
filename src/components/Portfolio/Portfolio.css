@@ -2,7 +2,7 @@
     background-color: var(--color-primary);
     width: 100%;
     box-sizing: border-box;
-    padding: 90px 70px 0px;
+    padding: 90px 70px 190px;
 
     display: flex;
     flex-direction: column;
@@ -205,6 +205,14 @@
     .portfolio__list-img {
         max-width: 15px;
         margin-top: 15px;
+    }
+
+    .portfolio__article-container {
+        margin-bottom: 70px;
+    }
+
+    .portfolio__article-text{
+        margin-bottom: 36px;
     }
 }
 
