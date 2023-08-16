@@ -30,6 +30,7 @@ function Register() {
                     minLength={3}
                     className="register__input"
                     onChange={(e) => setName(e.target.value)}
+                    placeholder='Введите имя'
                 />
                 <span className="register__input-error">Что-то пошло не так...</span>
 
@@ -42,6 +43,7 @@ function Register() {
                     minLength={3}
                     className="register__input"
                     onChange={(e) => setEmail(e.target.value)}
+                    placeholder='Введите e-mail'
                 />
                 <span className="register__input-error">Что-то пошло не так...</span>
 
@@ -54,6 +56,7 @@ function Register() {
                     minLength={3}
                     className="register__input"
                     onChange={(e) => setPassword(e.target.value)}
+                    placeholder='Введите пароль'
                 />
                 <span className="register__input-error">Что-то пошло не так...</span>
 

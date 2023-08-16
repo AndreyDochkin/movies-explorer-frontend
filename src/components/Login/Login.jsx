@@ -31,6 +31,7 @@ function Login() {
                     minLength={3}
                     className="login__input"
                     onChange={(e) => setEmail(e.target.value)}
+                    placeholder='Введите e-mail'
                 />
                 <span className="login__input-error">Что-то пошло не так...</span>
 
@@ -43,6 +44,7 @@ function Login() {
                     minLength={3}
                     className="login__input"
                     onChange={(e) => setPassword(e.target.value)}
+                    placeholder='Введите пароль'
                 />
                 <span className="login__input-error">Что-то пошло не так...</span>
 
