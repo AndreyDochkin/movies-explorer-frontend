@@ -28,14 +28,14 @@ function Portfolio() {
                     <img className='portfolio__list-img' src={arrowPath} alt="Arrow icon" />
                 </li>
 
-                <div className='portfolio__list-line'></div>
+                <li className='portfolio__list-line'></li>
 
                 <li className='portfolio__list-item'>
                     <a className='portfolio__list-link' href='https://github.com/AndreyDochkin/russian-travel' target="_blank" rel="noopener noreferrer">Адаптивный сайт</a>
                     <img className='portfolio__list-img' src={arrowPath} alt="Arrow icon" />
                 </li>
 
-                <div className='portfolio__list-line'></div>
+                <li className='portfolio__list-line'></li>
 
                 <li className='portfolio__list-item'>
                     <a className='portfolio__list-link' href='https://github.com/AndreyDochkin/react-mesto-api-full-gha' target="_blank" rel="noopener noreferrer">Одностраничное приложение</a>

@@ -25,7 +25,7 @@ function Register() {
                 <input
                     id="name"
                     name="name"
-                    type="name"
+                    type="text"
                     value={name}
                     minLength={3}
                     className="register__input"

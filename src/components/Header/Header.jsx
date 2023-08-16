@@ -25,10 +25,10 @@ function Header() {
             <div className="header__container">
                 {isLoggedIn ? (
                     <>
-                        <Link to="/sign-up" type="button" className="header__button header__button_signup">
+                        <Link to="/sign-up" className="header__button header__button_signup">
                             Регистрация
                         </Link>
-                        <Link to="/sign-in" type="button" className="header__button header__button_signin">
+                        <Link to="/sign-in" className="header__button header__button_signin">
                             Войти
                         </Link>
                     </>
