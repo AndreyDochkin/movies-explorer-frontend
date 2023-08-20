@@ -12,9 +12,43 @@ import Login from "../Login/Login";
 import NotFound from "../NotFound/NotFound";
 import Preloader from "../Preloader/Preloader";
 
+import MoviesApi from "../../utils/MoviesApi";
+import MainApi from "../../utils/MainApi";
+
+
+const moviesApi = new MoviesApi({
+  baseUrl: 'https://api.nomoreparties.co',
+  headers: {
+      "Content-Type": "application/json",
+  },
+});
+
+const mainApi = new MainApi({
+  baseUrl: 'https://api.moviematchup.nomoreparties.sbs',
+  headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${localStorage.getItem('token')}`,
+  },
+})
+
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    moviesApi.getMovies()
+      .then((movies) => {
+        console.log(movies);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  },[])
+
 
   return (
     <div className="app">
