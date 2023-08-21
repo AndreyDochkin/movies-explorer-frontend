@@ -76,7 +76,7 @@ export default class MainApi {
         return fetch(`${this.baseUrl}${path}`, options).then(this._getJson);
     };
 
-    registerUser = (email, password) => this.makeRequest("/signup", "POST", { email, password }, null);
+    registerUser = (name, email, password) => this.makeRequest("/signup", "POST", { name, email, password }, null);
     loginUser = (email, password) => this.makeRequest("/signin", "POST", { email, password }, null);
 
 }

@@ -19,27 +19,27 @@ import MainApi from "../../utils/MainApi";
 const moviesApi = new MoviesApi({
   baseUrl: 'https://api.nomoreparties.co',
   headers: {
-      "Content-Type": "application/json",
+    "Content-Type": "application/json",
   },
 });
 
 const mainApi = new MainApi({
   baseUrl: 'https://api.moviematchup.nomoreparties.sbs',
   headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem('token')}`,
+    "Content-Type": "application/json",
+    authorization: `Bearer ${localStorage.getItem('token')}`,
   },
 })
 
-
 function App() {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
     moviesApi.getMovies()
       .then((movies) => {
-        console.log(movies);
+        // console.log(movies);
       })
       .catch((err) => {
         console.log(err);
@@ -47,7 +47,21 @@ function App() {
       .finally(() => {
         setIsLoading(false);
       });
-  },[])
+  }, [])
+
+  function handleUserSignUp(name, email, password) {
+    setIsLoading(true);
+    mainApi.registerUser(name, email, password)
+      .then((res) => {
+        navigate('/sign-in');
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
 
 
   return (
@@ -78,9 +92,9 @@ function App() {
 
         <Route path="/profile" element={<Profile />} />
 
-        <Route path="sign-up" element={<Register />} />
+        <Route path="/sign-up" element={<Register registrationUser={handleUserSignUp} />} />
 
-        <Route path="sign-in" element={<Login />} />
+        <Route path="/sign-in" element={<Login />} />
 
         <Route path="*" element={<NotFound />} />
 
