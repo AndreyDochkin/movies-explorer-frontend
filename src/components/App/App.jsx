@@ -24,7 +24,8 @@ const moviesApi = new MoviesApi({
 });
 
 const mainApi = new MainApi({
-  baseUrl: 'https://api.moviematchup.nomoreparties.sbs',
+  // baseUrl: 'http://api.moviematchup.nomoreparties.sbs',
+  baseUrl: 'http://localhost:4000',
   headers: {
     "Content-Type": "application/json",
     authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -33,6 +34,7 @@ const mainApi = new MainApi({
 
 function App() {
   const navigate = useNavigate();
+  const [signupError, setSignupErrorError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -42,6 +44,7 @@ function App() {
         // console.log(movies);
       })
       .catch((err) => {
+      
         console.log(err);
       })
       .finally(() => {
@@ -49,13 +52,14 @@ function App() {
       });
   }, [])
 
-  function handleUserSignUp(name, email, password) {
+  function handleUserSignUp(email, password, name) {
     setIsLoading(true);
-    mainApi.registerUser(name, email, password)
+    mainApi.registerUser(email, password, name)
       .then((res) => {
         navigate('/sign-in');
       })
       .catch((err) => {
+        setSignupErrorError(err);
         console.log(err);
       })
       .finally(() => {
@@ -92,7 +96,7 @@ function App() {
 
         <Route path="/profile" element={<Profile />} />
 
-        <Route path="/sign-up" element={<Register registrationUser={handleUserSignUp} />} />
+        <Route path="/sign-up" element={<Register registrationUser={handleUserSignUp} signupError = {signupError}/>} />
 
         <Route path="/sign-in" element={<Login />} />
 

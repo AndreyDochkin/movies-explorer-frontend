@@ -8,11 +8,16 @@ export default class MainApi {
         return this._headers;
     }
 
-    _getJson(res) {
-        if (res.ok) {
-            return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
+    // _getJson(res) {
+    //     if (res.ok) {
+    //         return res.json();
+    //     }
+    //     return Promise.reject(res.json().message);
+    // }
+
+    async _getJson(res) {
+        const result = await res.json();
+        return res.ok ? result : Promise.reject(result.message);
     }
 
     getCurrentUser() {
@@ -70,14 +75,26 @@ export default class MainApi {
             Accept: "application/json",
             "Content-Type": "application/json",
         };
-        const options = { method, headers,};
+        const options = { method, headers, };
         if (token) { headers.Authorization = `Bearer ${token}`; }
         if (body) { options.body = JSON.stringify(body); }
-        return fetch(`${this.baseUrl}${path}`, options).then(this._getJson);
+        return fetch(`${this._baseUrl}${path}`, options).then(this._getJson);
     };
 
-    registerUser = (name, email, password) => this.makeRequest("/signup", "POST", { name, email, password }, null);
+    // registerUser = (email, password, name) => this.makeRequest("/signup", "POST", { email, password, name }, null);
     loginUser = (email, password) => this.makeRequest("/signin", "POST", { email, password }, null);
+
+    registerUser(email, password, name) {
+        return fetch(`${this._baseUrl}/signup`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email,
+                password,
+                name,
+            }),
+        }).then(this._getJson);
+    }
 
 }
 

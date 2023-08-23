@@ -8,11 +8,16 @@ export default class MoviesApi {
         return this._headers;
     }
 
-    _getJson(res) {
-        if (res.ok) {
-            return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
+    // _getJson(res) {
+    //     if (res.ok) {
+    //         return res.json();
+    //     }
+    //     return Promise.reject(`Ошибка: ${res.status}`);
+    // }
+
+    async _getJson(res) {
+        const result = await res.json();
+        return res.ok ? result : Promise.reject(result.message);
     }
 
     getMovies() {

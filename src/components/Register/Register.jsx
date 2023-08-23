@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom'
 import logoPath from '../../images/logo.svg';
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
-function Register({ registrationUser }) {
+function Register({ registrationUser , signupError}) {
     const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
 
     function handleSubmit(event) {
         event.preventDefault();
-        registrationUser(values.name, values.email, values.password);
+        registrationUser(values.email, values.password, values.name);
     }
 
     useEffect(() => {
@@ -37,7 +37,6 @@ function Register({ registrationUser }) {
                     placeholder='Введите имя'
                     minLength={3}
                     maxLength={30}
-                    pattern="^[A-Za-zА-Яа-яЁё /s -]+$"
                     required
                 />
                 <span className="register__error">{errors.name || ''}</span>
@@ -68,7 +67,7 @@ function Register({ registrationUser }) {
                     required
                 />
                 <span className="register__error">{errors.password || ''}</span>
-
+                <div className='register__error'>{signupError || ''}</div>
                 <button
                     type="submit"
                     className={`register__button ${!isValid && 'register__button_disabled'}`}
