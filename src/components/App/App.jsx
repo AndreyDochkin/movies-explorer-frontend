@@ -35,7 +35,9 @@ const mainApi = new MainApi({
 function App() {
   const navigate = useNavigate();
   const [signupError, setSignupErrorError] = useState('');
+  const [loginError, setLoginErrorError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -44,7 +46,7 @@ function App() {
         // console.log(movies);
       })
       .catch((err) => {
-      
+
         console.log(err);
       })
       .finally(() => {
@@ -56,7 +58,7 @@ function App() {
     setIsLoading(true);
     mainApi.registerUser(email, password, name)
       .then((res) => {
-        navigate('/sign-in');
+        handleLogin({ email, password });
       })
       .catch((err) => {
         setSignupErrorError(err);
@@ -65,6 +67,34 @@ function App() {
       .finally(() => {
         setIsLoading(false);
       });
+  }
+
+  function handleLogin(email, password) {
+    setIsLoading(true);
+    mainApi
+      .loginUser(email, password)
+      .then(data => {
+        if (data.token) {
+          localStorage.setItem("jwt", data.token);
+          setIsLoggedIn(true);
+          navigate('/movies', { replace: true });
+        }
+      })
+      .catch((err) => {
+        setLoginErrorError(err);
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+
+    // setLoginError(false)
+    // localStorage.setItem("jwt", data.token);
+    // api.setHeaderToken(data.token); //! pass toket to header for api request
+    // setToken(data.token);
+    // setIsLoggedIn(true);
+    // navigate('/', { replace: true });
+
   }
 
 
@@ -96,9 +126,9 @@ function App() {
 
         <Route path="/profile" element={<Profile />} />
 
-        <Route path="/sign-up" element={<Register registrationUser={handleUserSignUp} signupError = {signupError}/>} />
+        <Route path="/sign-up" element={<Register registrationUser={handleUserSignUp} signupError={signupError} />} />
 
-        <Route path="/sign-in" element={<Login />} />
+        <Route path="/sign-in" element={<Login loginUser={handleLogin} loginError={loginError} />} />
 
         <Route path="*" element={<NotFound />} />
 
