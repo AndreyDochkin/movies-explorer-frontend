@@ -11,11 +11,8 @@ function Register({ registrationUser , signupError}) {
     function handleSubmit(event) {
         event.preventDefault();
         registrationUser(values.email, values.password, values.name);
-    }
-
-    useEffect(() => {
         resetForm();
-    }, [resetForm]);
+    }
 
     return (
         <main className="register">

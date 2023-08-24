@@ -7,15 +7,11 @@ import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 function Login({ loginUser, loginError }) {
     const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
-
     function handleSubmit(event) {
         event.preventDefault();
         loginUser(values.email, values.password);
-    }
-
-    useEffect(() => {
         resetForm();
-    }, [resetForm]);
+    }
 
     return (
         <main className="login">
