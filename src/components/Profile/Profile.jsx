@@ -39,7 +39,7 @@ function Profile({ onSignOut, onEdit, editModeError }) {
                             name="name"
                             type="text"
                             className='profile__input'
-                            value={values.name}
+                            value={values.name || ''}
                             onChange={handleChange}
                             minLength="2"
                             maxLength="30"
@@ -53,7 +53,7 @@ function Profile({ onSignOut, onEdit, editModeError }) {
                             name="email"
                             type="email"
                             className='profile__input'
-                            value={values.email}
+                            value={values.email || ''}
                             onChange={handleChange}
                             required
                             disabled={!editMode ? true : false}

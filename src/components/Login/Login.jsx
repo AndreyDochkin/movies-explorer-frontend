@@ -23,7 +23,7 @@ function Login({ loginUser, loginError }) {
             <h2 className="login__title">Рады видеть!</h2>
             <form onSubmit={handleSubmit} className="login__form">
 
-                <label for='email' className="login__label">E-mail</label>
+                <label className="login__label">E-mail</label>
                 <input
                     id="email"
                     name="email"
@@ -36,7 +36,7 @@ function Login({ loginUser, loginError }) {
                 />
                 <span className="login__error">{errors.email || ''}</span>
 
-                <label for='password' className="login__label">Пароль</label>
+                <label className="login__label">Пароль</label>
                 <input
                     id="password"
                     name="password"

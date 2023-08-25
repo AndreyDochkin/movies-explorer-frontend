@@ -6,8 +6,8 @@ import burgerPath from '../../images/burger_menu_icon.svg';
 import closePath from '../../images/close_icon.svg';
 import Navigation from "../Navigation/Navigation";
 
-function Header() {
-    const isLoggedIn = useLocation().pathname === '/';
+function Header({isLoggedIn}) {
+    const isMainPage = useLocation().pathname === '/';
     // const isLoggedIn = true;
     const isBurger = true;
     const [burgerIsOpen, setBurgerIsOpen] = useState(false);
@@ -17,18 +17,18 @@ function Header() {
     }
 
     return (
-        <header className={`header ${isLoggedIn ? 'header_lending' : 'header_primary'}`} >
+        <header className={`header ${isMainPage ? 'header_lending' : 'header_primary'}`} >
             <Link to='/' className='header__logo'>
                 <img src={logoPath} alt="logo" />
             </Link>
 
             <div className="header__container">
-                {isLoggedIn ? (
+                {!isLoggedIn ? (
                     <>
-                        <Link to="/sign-up" className="header__button header__button_signup">
+                        <Link to="sign-up" className="header__button header__button_signup">
                             Регистрация
                         </Link>
-                        <Link to="/sign-in" className="header__button header__button_signin">
+                        <Link to="sign-in" className="header__button header__button_signin">
                             Войти
                         </Link>
                     </>

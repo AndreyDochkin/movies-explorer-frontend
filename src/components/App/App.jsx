@@ -63,7 +63,7 @@ function App() {
     setIsLoading(true);
     mainApi.registerUser(email, password, name)
       .then((res) => {
-        handleLogin({ email, password });
+        handleLogin( email, password);
       })
       .catch((err) => {
         setSignupErrorError(err);
@@ -150,7 +150,6 @@ function App() {
         .getCurrentUser()
         .then(res => {
           setCurrentUser(res.data)
-          console.log('useEffect isLoggedIn currentUser', currentUser);
         })
         .catch(err => console.log(err))
     }
@@ -168,7 +167,7 @@ function App() {
 
         <Routes>
           {['/', '/movies', '/saved-movies', '/profile']
-            .map((path, index) => <Route path={path} key={index} element={<Header />} />)}
+            .map((path, index) => <Route path={path} key={index} element={<Header isLoggedIn={isLoggedIn}/>} />)}
         </Routes>
 
         <Routes>
@@ -190,7 +189,7 @@ function App() {
           } />
 
 
-          <Route
+          {/* <Route
             exect path="/movies"
             element={
               <ProtectedRoute
@@ -203,7 +202,7 @@ function App() {
                 isLoggedIn={isLoggedIn}
               />
             }
-          />
+          /> */}
 
           <Route path="/profile" element={<Profile onSignOut={handleSignOut} onEdit={handleEditProfile} editModeError={editModeError} />} />
 

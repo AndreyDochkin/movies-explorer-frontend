@@ -8,6 +8,10 @@ export default class MainApi {
         return this._headers;
     }
 
+    setHeaderToken(jwt) {
+        this._headers.authorization = `Bearer ${jwt}`;
+    }
+
     // _getJson(res) {
     //     if (res.ok) {
     //         return res.json();
@@ -70,19 +74,18 @@ export default class MainApi {
         }).then(this._getJson);
     }
 
-    makeRequest = (path, method, body, token) => {
-        const headers = {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        };
-        const options = { method, headers, };
-        if (token) { headers.Authorization = `Bearer ${token}`; }
-        if (body) { options.body = JSON.stringify(body); }
-        return fetch(`${this._baseUrl}${path}`, options).then(this._getJson);
-    };
-
+    // makeRequest = (path, method, body, token) => {
+    //     const headers = {
+    //         Accept: "application/json",
+    //         "Content-Type": "application/json",
+    //     };
+    //     const options = { method, headers, };
+    //     if (token) { headers.Authorization = `Bearer ${token}`; }
+    //     if (body) { options.body = JSON.stringify(body); }
+    //     return fetch(`${this._baseUrl}${path}`, options).then(this._getJson);
+    // };
     // registerUser = (email, password, name) => this.makeRequest("/signup", "POST", { email, password, name }, null);
-    loginUser = (email, password) => this.makeRequest("/signin", "POST", { email, password }, null);
+    //loginUser = (email, password) => this.makeRequest("/signin", "POST", { email, password }, null);
 
     registerUser(email, password, name) {
         return fetch(`${this._baseUrl}/signup`, {
@@ -93,6 +96,14 @@ export default class MainApi {
                 password,
                 name,
             }),
+        }).then(this._getJson);
+    }
+
+    loginUser(email, password) {
+        return fetch(`${this._baseUrl}/signin`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
         }).then(this._getJson);
     }
 
