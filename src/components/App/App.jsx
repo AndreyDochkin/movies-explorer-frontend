@@ -15,6 +15,9 @@ import Preloader from "../Preloader/Preloader";
 import MoviesApi from "../../utils/MoviesApi";
 import MainApi from "../../utils/MainApi";
 
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import ProtectedRoute from "../../utils/ProtectedRoute";
+
 
 const moviesApi = new MoviesApi({
   baseUrl: 'https://api.nomoreparties.co',
@@ -34,8 +37,10 @@ const mainApi = new MainApi({
 
 function App() {
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState({});
   const [signupError, setSignupErrorError] = useState('');
   const [loginError, setLoginErrorError] = useState('');
+  const [editModeError, setEditModeError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -76,6 +81,7 @@ function App() {
       .then(data => {
         if (data.token) {
           localStorage.setItem("jwt", data.token);
+          mainApi.setHeaderToken(data.token);
           setIsLoggedIn(true);
           navigate('/movies', { replace: true });
         }
@@ -87,59 +93,135 @@ function App() {
       .finally(() => {
         setIsLoading(false);
       });
-
     // setLoginError(false)
     // localStorage.setItem("jwt", data.token);
     // api.setHeaderToken(data.token); //! pass toket to header for api request
     // setToken(data.token);
     // setIsLoggedIn(true);
     // navigate('/', { replace: true });
-
   }
+
+  function handleSignOut() {
+    setCurrentUser({});
+    setIsLoggedIn(false);
+    localStorage.clear();
+    mainApi.setHeaderToken('');
+    navigate('/', { replace: true });
+  }
+
+  function handleEditProfile(name, email) {
+    mainApi
+      .setCurrentUser(name, email)
+      .then(res => {
+        setCurrentUser({ ...res.data });
+      })
+      .catch(err => {
+        setEditModeError(err);
+        console.log(err);
+      })
+  }
+
+  useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) mainApi.setHeaderToken(jwt);
+    console.log('jwt', jwt);
+  }, [])
+
+  //если есть токен когда просто заходим на страницу вписываем юзера в стейт 
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      mainApi
+        .getCurrentUser()
+        .then(res => {
+          console.log('get current user navigate', res);
+          setIsLoggedIn(true);
+          setCurrentUser(res.data);
+
+        })
+        .catch(err => console.log(err))
+    }
+  }, [navigate]);
+
+  // получение информации о пользователе при входе
+  useEffect(() => {
+    if (isLoggedIn) {
+      mainApi
+        .getCurrentUser()
+        .then(res => {
+          setCurrentUser(res.data)
+          console.log('useEffect isLoggedIn currentUser', currentUser);
+        })
+        .catch(err => console.log(err))
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    console.log('currentUser', currentUser);
+  }, [currentUser])
 
 
   return (
-    <div className="app">
+    <CurrentUserContext.Provider value={currentUser}>
 
-      <Routes>
-        {['/', '/movies', '/saved-movies', '/profile']
-          .map((path, index) => <Route exect path={path} key={index} element={<Header />} />)}
-      </Routes>
+      <div className="app">
 
-      <Routes>
+        <Routes>
+          {['/', '/movies', '/saved-movies', '/profile']
+            .map((path, index) => <Route path={path} key={index} element={<Header />} />)}
+        </Routes>
 
-        <Route exect path="/" element={<Main />} />
+        <Routes>
 
-        <Route path="/movies" element={
-          <main>
-            <SearchForm />
-            {!isLoading ? <MoviesCardList /> : <Preloader />}
-          </main>
+          <Route exact path="/" element={<Main />} />
 
-        } />
-        <Route path="/saved-movies" element={
-          <main>
-            <SearchForm />
-            {!isLoading ? <MoviesCardList /> : <Preloader />}
-          </main>
-        } />
+          <Route path="/movies" element={
+            <main>
+              <SearchForm />
+              {!isLoading ? <MoviesCardList /> : <Preloader />}
+            </main>
 
-        <Route path="/profile" element={<Profile />} />
+          } />
+          <Route path="/saved-movies" element={
+            <main>
+              <SearchForm />
+              {!isLoading ? <MoviesCardList /> : <Preloader />}
+            </main>
+          } />
 
-        <Route path="/sign-up" element={<Register registrationUser={handleUserSignUp} signupError={signupError} />} />
 
-        <Route path="/sign-in" element={<Login loginUser={handleLogin} loginError={loginError} />} />
+          <Route
+            exect path="/movies"
+            element={
+              <ProtectedRoute
+                element={
+                  <main>
+                    <SearchForm />
+                    {!isLoading ? <MoviesCardList /> : <Preloader />}
+                  </main>
+                }
+                isLoggedIn={isLoggedIn}
+              />
+            }
+          />
 
-        <Route path="*" element={<NotFound />} />
+          <Route path="/profile" element={<Profile onSignOut={handleSignOut} onEdit={handleEditProfile} editModeError={editModeError} />} />
 
-      </Routes>
+          <Route path="/sign-up" element={<Register registrationUser={handleUserSignUp} signupError={signupError} />} />
 
-      <Routes>
-        {['/', '/movies', '/saved-movies']
-          .map((path, index) => <Route exect path={path} key={index} element={<Footer />} />)}
-      </Routes>
+          <Route path="/sign-in" element={<Login loginUser={handleLogin} loginError={loginError} />} />
 
-    </div>
+          <Route path="*" element={<NotFound />} />
+
+        </Routes>
+
+        <Routes>
+          {['/movies', '/saved-movies', '/',]
+            .map((path, index) => <Route path={path} key={index} element={<Footer />} />)}
+        </Routes>
+
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 
