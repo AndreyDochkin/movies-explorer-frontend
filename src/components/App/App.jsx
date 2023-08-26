@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useHistory } from "react";
 import { Route, Navigate, Routes, useNavigate } from 'react-router-dom';
 
 import Header from '../Header/Header';
@@ -11,6 +11,7 @@ import Register from "../Register/Register";
 import Login from "../Login/Login";
 import NotFound from "../NotFound/NotFound";
 import Preloader from "../Preloader/Preloader";
+import MoviesMain from "../MoviesMain/MoviesMain";
 
 import MoviesApi from "../../utils/MoviesApi";
 import MainApi from "../../utils/MainApi";
@@ -37,11 +38,12 @@ const mainApi = new MainApi({
 
 function App() {
   const navigate = useNavigate();
+  // const history = useHistory();
   const [currentUser, setCurrentUser] = useState({});
   const [signupError, setSignupErrorError] = useState('');
-  const [loginError, setLoginErrorError] = useState('');
+  const [loginError, setLoginError] = useState('');
   const [editModeError, setEditModeError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); //useState((localStorage.getItem("jwt") ? true : false));
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -57,13 +59,55 @@ function App() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [])
+  }, []);
+
+
+  useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      mainApi.setHeaderToken(jwt);
+    }
+    console.log('jwt', jwt);
+  }, []);
+
+  //если есть токен когда просто заходим на страницу вписываем юзера в стейт 
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      setIsLoading(true);
+      mainApi
+        .getCurrentUser()
+        .then((res) => {
+          console.log('get current user navigate', res);
+          setIsLoggedIn(true);
+          setCurrentUser(res.data);
+          // navigate('/', { replace: true });
+        })
+        .catch(err => console.log(err))
+        .finally(() => { setIsLoading(false) });
+    }
+  }, [navigate]);
+
+  // получение информации о пользователе при входе
+  useEffect(() => {
+    if (isLoggedIn) {
+      setIsLoading(true);
+      mainApi
+        .getCurrentUser()
+        .then(res => {
+          setCurrentUser(res.data)
+        })
+        .catch(err => console.log(err))
+        .finally(() => { setIsLoading(false) });
+    }
+  }, [isLoggedIn]);
+
 
   function handleUserSignUp(email, password, name) {
     setIsLoading(true);
     mainApi.registerUser(email, password, name)
       .then((res) => {
-        handleLogin( email, password);
+        handleLogin(email, password);
       })
       .catch((err) => {
         setSignupErrorError(err);
@@ -83,22 +127,17 @@ function App() {
           localStorage.setItem("jwt", data.token);
           mainApi.setHeaderToken(data.token);
           setIsLoggedIn(true);
+          // history.push('/movies');
           navigate('/movies', { replace: true });
         }
       })
       .catch((err) => {
-        setLoginErrorError(err);
+        setLoginError(err);
         console.log(err);
       })
       .finally(() => {
         setIsLoading(false);
       });
-    // setLoginError(false)
-    // localStorage.setItem("jwt", data.token);
-    // api.setHeaderToken(data.token); //! pass toket to header for api request
-    // setToken(data.token);
-    // setIsLoggedIn(true);
-    // navigate('/', { replace: true });
   }
 
   function handleSignOut() {
@@ -110,6 +149,7 @@ function App() {
   }
 
   function handleEditProfile(name, email) {
+    setIsLoading(true);
     mainApi
       .setCurrentUser(name, email)
       .then(res => {
@@ -119,46 +159,10 @@ function App() {
         setEditModeError(err);
         console.log(err);
       })
+      .finally(() => { setIsLoading(false) });
   }
 
-  useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) mainApi.setHeaderToken(jwt);
-    console.log('jwt', jwt);
-  }, [])
-
-  //если есть токен когда просто заходим на страницу вписываем юзера в стейт 
-  useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      mainApi
-        .getCurrentUser()
-        .then(res => {
-          console.log('get current user navigate', res);
-          setIsLoggedIn(true);
-          setCurrentUser(res.data);
-
-        })
-        .catch(err => console.log(err))
-    }
-  }, [navigate]);
-
-  // получение информации о пользователе при входе
-  useEffect(() => {
-    if (isLoggedIn) {
-      mainApi
-        .getCurrentUser()
-        .then(res => {
-          setCurrentUser(res.data)
-        })
-        .catch(err => console.log(err))
-    }
-  }, [isLoggedIn]);
-
-  useEffect(() => {
-    console.log('currentUser', currentUser);
-  }, [currentUser])
-
+  console.log('isLoggedIn setIsLoading', isLoggedIn, isLoading);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -167,44 +171,61 @@ function App() {
 
         <Routes>
           {['/', '/movies', '/saved-movies', '/profile']
-            .map((path, index) => <Route path={path} key={index} element={<Header isLoggedIn={isLoggedIn}/>} />)}
+            .map((path, index) => <Route path={path} key={index} element={<Header isLoggedIn={isLoggedIn} />} />)}
         </Routes>
 
         <Routes>
 
           <Route exact path="/" element={<Main />} />
 
-          <Route path="/movies" element={
+          {/* <Route path="/movies" element={
             <main>
               <SearchForm />
               {!isLoading ? <MoviesCardList /> : <Preloader />}
             </main>
+          } /> */}
 
-          } />
-          <Route path="/saved-movies" element={
+          {/* <Route path="/saved-movies" element={
             <main>
               <SearchForm />
               {!isLoading ? <MoviesCardList /> : <Preloader />}
             </main>
-          } />
+          } /> */}
 
-
-          {/* <Route
-            exect path="/movies"
+          <Route
+            path="/movies"
             element={
               <ProtectedRoute
-                element={
-                  <main>
-                    <SearchForm />
-                    {!isLoading ? <MoviesCardList /> : <Preloader />}
-                  </main>
-                }
-                isLoggedIn={isLoggedIn}
+                element={MoviesMain}
+                isLoggedIn={isLoggedIn} isLoading={isLoading}
               />
             }
-          /> */}
+          />
 
-          <Route path="/profile" element={<Profile onSignOut={handleSignOut} onEdit={handleEditProfile} editModeError={editModeError} />} />
+          <Route
+            path="/saved-movies"
+            element={
+              <ProtectedRoute
+                element={MoviesMain}
+                isLoggedIn={isLoggedIn} isLoading={isLoading}
+              />
+            }
+          />
+
+          {/* <Route path="/profile" element={<Profile onSignOut={handleSignOut}
+            onEdit={handleEditProfile}
+            editModeError={editModeError} />} /> */}
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute
+                element={Profile}
+                isLoggedIn={isLoggedIn} isLoading={isLoading}
+                onSignOut={handleSignOut} onEdit={handleEditProfile} editModeError={editModeError}
+              />
+            }
+          />
 
           <Route path="/sign-up" element={<Register registrationUser={handleUserSignUp} signupError={signupError} />} />
 

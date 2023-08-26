@@ -74,19 +74,6 @@ export default class MainApi {
         }).then(this._getJson);
     }
 
-    // makeRequest = (path, method, body, token) => {
-    //     const headers = {
-    //         Accept: "application/json",
-    //         "Content-Type": "application/json",
-    //     };
-    //     const options = { method, headers, };
-    //     if (token) { headers.Authorization = `Bearer ${token}`; }
-    //     if (body) { options.body = JSON.stringify(body); }
-    //     return fetch(`${this._baseUrl}${path}`, options).then(this._getJson);
-    // };
-    // registerUser = (email, password, name) => this.makeRequest("/signup", "POST", { email, password, name }, null);
-    //loginUser = (email, password) => this.makeRequest("/signin", "POST", { email, password }, null);
-
     registerUser(email, password, name) {
         return fetch(`${this._baseUrl}/signup`, {
             method: 'POST',
@@ -104,6 +91,17 @@ export default class MainApi {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),
+        }).then(this._getJson);
+    }
+
+    
+    checkToken(token) {
+        return fetch(`${this.baseUrl}/users/me`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
         }).then(this._getJson);
     }
 
