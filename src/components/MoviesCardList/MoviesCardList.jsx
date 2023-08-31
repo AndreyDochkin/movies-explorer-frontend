@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
-import movies from '../../utils/mockMoviesListArray';
-function MoviesCardList() {
+
+function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteClick, isSavedMoviesRoute }) {
+    const location = useLocation();
     const [moviesDisplay, setMoviesDisplay] = useState([]);
     const [totalDisplay, setTotalDisplay] = useState(12); //total amount of displaed movies
-    const [deltaDisplay, setDeltaDisplay] = useState(12); //grower for amount of dislaped movies
-
+    const [deltaDisplay, setDeltaDisplay] = useState(3); //grower for amount of dislaped movies
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+    const [isMoviesListLoaded, setIsMoviesListLoaded] = useState(false);
 
     const handleResize = () => {
-        setScreenWidth(window.innerWidth);
+        setTimeout(() => {
+            setScreenWidth(window.innerWidth);
+        }, 1000);
     };
+
+    function handleClickMoreMovies() {
+        setTotalDisplay(totalDisplay + deltaDisplay);
+    }
 
     useEffect(() => {
         window.addEventListener('resize', handleResize);
+
         return () => {
             window.removeEventListener('resize', handleResize);
         };
@@ -22,44 +30,58 @@ function MoviesCardList() {
 
     useEffect(() => {
         if (screenWidth > 1200) {
-            setTotalDisplay(12);
-            setDeltaDisplay(12);
+            setTotalDisplay(9);
+            setDeltaDisplay(3);
         } else if (screenWidth <= 1200 && screenWidth > 600) {
             setTotalDisplay(8);
-            setDeltaDisplay(8);
+            setDeltaDisplay(2);
 
         } else {
-            setTotalDisplay(4);
-            setDeltaDisplay(4);
+            setTotalDisplay(5);
+            setDeltaDisplay(1);
         }
     }, [screenWidth])
 
 
     useEffect(() => {
-        if (movies.length) setMoviesDisplay(movies.slice(0, totalDisplay));
-    }, [totalDisplay]);
+        if (moviesList.length) setMoviesDisplay(moviesList.slice(0, totalDisplay));
+    }, [totalDisplay, moviesList]);
 
-    function handleClickMoreMovies() {
-        console.log('click');
-        setTotalDisplay(totalDisplay + deltaDisplay);
+    useEffect(() => {
+        setIsMoviesListLoaded(moviesList.length === 0 ? true : false);
+    }, [moviesList, isMoviesListLoaded]);
+
+    function checkIsMovieSaved(list, item) {
+        return !isSavedMoviesRoute ? list.some((movie) => movie.movieId === (item.movieId || item.id)) : false;
     }
 
     return (
         <section className="movies">
-            <ul className="movies__list">
-                {moviesDisplay.map((movie) => (
-                    <MoviesCard
-                        movie={movie}
-                        key={movie._id} />
-                ))}
+            <ul className="movies__list"> {
+                isMoviesListLoaded ?
+                    <div className='movies__not-found'> Ничего не найдено</div>
+                    :
+                    moviesDisplay.map((movie) => (
+                        <MoviesCard
+                            baseUrl={baseUrl}
+                            movie={movie}
+                            isMovieSaved={checkIsMovieSaved(savedList, movie)}
+                            key={movie.id || movie.movieId}
+                            onSaveClick={onSaveClick}
+                            onDeleteClick={onDeleteClick}
+                            isSavedMoviesRoute={isSavedMoviesRoute} />
+                    ))
+            }
             </ul>
 
-            <button type="button"
-                className="movies__button-more"
-                onClick={handleClickMoreMovies}
-            >
-                Ещё
-            </button>
+            {!isSavedMoviesRoute && moviesList.length > totalDisplay && (
+                <button type="button"
+                    className="movies__button-more"
+                    onClick={handleClickMoreMovies}
+                >
+                    Ещё
+                </button>
+            )}
 
         </section>
 

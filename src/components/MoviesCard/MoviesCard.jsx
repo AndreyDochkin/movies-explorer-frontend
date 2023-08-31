@@ -1,20 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useContext } from 'react';
 import { Link, useLocation } from "react-router-dom";
 
-function MoviesCard(props) {
-    const isSavedMovies = useLocation().pathname === '/saved-movies';
-    const isOwn = false;
-    // let isSaved = false;
-    const [isSaved, setIsSaved] = useState(false);
+function MoviesCard({ isSavedMoviesRoute, isMovieSaved, movie,onDeleteClick,onSaveClick,baseUrl}) {
+    // const useLocation().pathname === '/saved-movies';
 
     function handleClick() {
-        // props.onCardClick(props.card);
+        window.open(movie.trailerLink, '_blank');
     }
 
-    function handleSave() {
-        setIsSaved(!isSaved);
-        // props.onCardLike(props.card);
+    function handleSaveMovie() {
+        if (isMovieSaved) {
+            onDeleteClick(movie);
+        }
+        else {
+            onSaveClick(movie);
+        }
+    }
+
+    function handleDeleteMovie() {
+        onDeleteClick(movie);
     }
 
     return (
@@ -22,14 +27,18 @@ function MoviesCard(props) {
 
             <div className="movie-item__header">
                 <div className="movie-item__text">
-                    <h2 className="movie-item__title">{props.movie.nameRU}</h2>
-                    <p className="movie-item__duration">{props.movie.duration}</p>
+                    <h2 className="movie-item__title">{movie.nameRU}</h2>
+                    <p className="movie-item__duration">{movie.duration}</p>
                 </div>
 
-                <button className={`movie-item__save ${isSaved && 'movie-item__save_active'}  ${isSavedMovies && 'movie-item__delete'}`} type="button" onClick={handleSave} />
+                <button className={`movie-item__save ${isMovieSaved && 'movie-item__save_active'}  ${isSavedMoviesRoute && 'movie-item__delete'}`}
+                    type="button"
+                    onClick={isSavedMoviesRoute ? handleDeleteMovie : handleSaveMovie} />
             </div>
-            
-            <img className="movie-item__image" src={props.movie.image} alt={props.movie.nameRU}  onClick={handleClick} />
+
+            {/* `${props.baseUrl}${props.movie.image.url}` */}
+            {/* 'https://lajoyalink.com/wp-content/uploads/2018/03/Movie.jpg' */}
+            <img className="movie-item__image" src={`${baseUrl}${movie.image.url}`} alt={movie.nameRU} onClick={handleClick} />
         </li>
     );
 }

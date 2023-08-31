@@ -1,16 +1,46 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { useLocation , useNavigate} from "react-router-dom";
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function SearchForm() {
+function SearchForm({ searchText, handleSearch, handleCheckShortMovies, checkShortMovies,isSavedMoviesRoute }) {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const currentUser = useContext(CurrentUserContext);
+
+    const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
+
+    useEffect(() => {
+        values.search = searchText;
+    }, [currentUser, searchText, isSavedMoviesRoute]);
+
+    useEffect(() => {
+        handleSearch(values.search);
+    }, [checkShortMovies]);
+
+     function handleSubmit(e) {
+        e.preventDefault();
+        handleSearch(values.search);
+    }
+
     return (
         <section className="search">
-            <form className="search__form">
-                <input className="search__input" type="text" placeholder="Фильм" />
+            <form onSubmit={handleSubmit} className="search__form" noValidate>
+                <input className="search__input"
+                    type="text"
+                    placeholder="Фильм"
+                    value={values.search || ''}
+                    onChange={handleChange}
+                    name="search"
+                />
                 <button className="search__button" type="submit" />
             </form>
 
             <div className="slider">
                 <label className="slider__checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox"
+                        onChange={handleCheckShortMovies}
+                        checked={checkShortMovies} />
                     <span className="slider__element"></span>
                 </label>
                 <p className="slider__text">Короткометражки</p>

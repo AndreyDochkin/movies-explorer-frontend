@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useHistory } from "react";
-import { Route, Navigate, Routes, useNavigate } from 'react-router-dom';
+import { Route, Navigate, Routes, useNavigate, useLocation } from 'react-router-dom';
 
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -11,7 +11,8 @@ import Register from "../Register/Register";
 import Login from "../Login/Login";
 import NotFound from "../NotFound/NotFound";
 import Preloader from "../Preloader/Preloader";
-import MoviesMain from "../MoviesMain/MoviesMain";
+import SavedMovies from "../SavedMovies/SavedMovies";
+import Movies from "../Movies/Movies";
 
 import MoviesApi from "../../utils/MoviesApi";
 import MainApi from "../../utils/MainApi";
@@ -20,7 +21,7 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import ProtectedRoute from "../../utils/ProtectedRoute";
 
 
-const moviesApi = new MoviesApi({
+const moviesApiMain = new MoviesApi({
   baseUrl: 'https://api.nomoreparties.co',
   headers: {
     "Content-Type": "application/json",
@@ -32,12 +33,13 @@ const mainApi = new MainApi({
   baseUrl: 'http://localhost:4000',
   headers: {
     "Content-Type": "application/json",
-    authorization: `Bearer ${localStorage.getItem('token')}`,
+    authorization: `Bearer ${localStorage.getItem('jwt')}`,
   },
 })
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
   // const history = useHistory();
   const [currentUser, setCurrentUser] = useState({});
   const [signupError, setSignupErrorError] = useState('');
@@ -45,21 +47,28 @@ function App() {
   const [editModeError, setEditModeError] = useState('');
   const [isLoading, setIsLoading] = useState(true); //useState((localStorage.getItem("jwt") ? true : false));
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [moviesList, setMoviesList] = useState([]);
+  const [savedMoviesList, setSavedMoviesList] = useState([]);
+  const [isSavedMoviesRoute, setIsSavedMoviesRoute] = useState(false);
 
   useEffect(() => {
+    setIsSavedMoviesRoute(location.pathname === '/saved-movies');
+  }, [location]);
+
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
     setIsLoading(true);
-    moviesApi.getMovies()
+    moviesApiMain.getMovies()
       .then((movies) => {
-        // console.log(movies);
+        setMoviesList(movies);
+
       })
       .catch((err) => {
-
         console.log(err);
       })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+      .finally(() => { setIsLoading(false); });
+  }, [isLoggedIn]);
 
 
   useEffect(() => {
@@ -78,7 +87,6 @@ function App() {
       mainApi
         .getCurrentUser()
         .then((res) => {
-          console.log('get current user navigate', res);
           setIsLoggedIn(true);
           setCurrentUser(res.data);
           // navigate('/', { replace: true });
@@ -128,7 +136,7 @@ function App() {
           mainApi.setHeaderToken(data.token);
           setIsLoggedIn(true);
           // history.push('/movies');
-          navigate('/movies', { replace: true });
+          navigate('/movies');
         }
       })
       .catch((err) => {
@@ -162,7 +170,72 @@ function App() {
       .finally(() => { setIsLoading(false) });
   }
 
-  console.log('isLoggedIn setIsLoading', isLoggedIn, isLoading);
+  function handleSaveMovie(movie) {
+    setIsLoading(true);
+
+    if (savedMoviesList.some(m => m.movieId === movie.id || m.movieId === movie.movieId)) return;
+
+    console.log('movie', movie);
+    const thumbnail = `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`;
+    const image = `https://api.nomoreparties.co${movie.image.url}`;
+    const movieForSave = {
+      country: movie.country,
+      director: movie.director,
+      duration: movie.duration,
+      year: movie.year,
+      description: movie.description,
+      image: image,
+      trailerLink: movie.trailerLink,
+      nameRU: movie.nameRU,
+      nameEN: movie.nameEN,
+      thumbnail: thumbnail,
+      movieId: movie.id,
+    }
+
+    mainApi
+      .addMovie(movieForSave)
+      .then((newMovie) => {
+        console.log('newMovie', newMovie);
+        setSavedMoviesList([newMovie.data, ...savedMoviesList]);
+      })
+      // .then(newMovie => setSavedMoviesList([newMovie, ...savedMoviesList]))
+      .catch(err => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+      })
+  }
+
+  function handleDeleteMovie(movie) {
+    if (!movie) return;
+    const savedMovie = savedMoviesList.find(m => m.movieId === movie.id || m.movieId === movie.movieId);
+
+    mainApi
+      .deleteMovie(savedMovie._id)
+      .then(() => {
+        const list = savedMoviesList.filter(m => {
+          return (movie.id === m.movieId || movie.movieId === m.movieId) ? false : true
+        });
+        setSavedMoviesList(list);
+      })
+      .catch(err => console.log(err));
+  }
+
+  useEffect(() => {
+    if (isLoggedIn && currentUser) {
+      setIsLoading(true);
+      mainApi
+        .getMovies()
+        .then(res => {
+          console.log('mainApi getMovies', res.data);
+          const UserMoviesList = res.data.filter(m => m.owner === currentUser._id);
+          setSavedMoviesList(UserMoviesList);
+        })
+        .catch(err => console.log(err))
+        .finally(() => { setIsLoading(false); });
+    }
+  }, [currentUser, isLoggedIn]);
+
+  console.log('App savedMoviesList', savedMoviesList);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -178,54 +251,33 @@ function App() {
 
           <Route exact path="/" element={<Main />} />
 
-          {/* <Route path="/movies" element={
-            <main>
-              <SearchForm />
-              {!isLoading ? <MoviesCardList /> : <Preloader />}
-            </main>
-          } /> */}
+          <Route path="/movies" element={
+            <Movies
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+              baseUrl={'https://api.nomoreparties.co'}
+              moviesList={moviesList}
+              savedList={savedMoviesList}
+              onSaveClick={handleSaveMovie}
+              onDeleteClick={handleDeleteMovie}
+              isSavedMoviesRoute={isSavedMoviesRoute} />
+          } />
 
-          {/* <Route path="/saved-movies" element={
-            <main>
-              <SearchForm />
-              {!isLoading ? <MoviesCardList /> : <Preloader />}
-            </main>
-          } /> */}
+          <Route path="/saved-movies" element={
+            <Movies
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+              baseUrl={'https://api.nomoreparties.co'}
+              moviesList={savedMoviesList}
+              savedList={savedMoviesList}
+              onSaveClick={handleSaveMovie}
+              onDeleteClick={handleDeleteMovie}
+              isSavedMoviesRoute={isSavedMoviesRoute} />
+          } />
 
-          <Route
-            path="/movies"
-            element={
-              <ProtectedRoute
-                element={MoviesMain}
-                isLoggedIn={isLoggedIn} isLoading={isLoading}
-              />
-            }
-          />
-
-          <Route
-            path="/saved-movies"
-            element={
-              <ProtectedRoute
-                element={MoviesMain}
-                isLoggedIn={isLoggedIn} isLoading={isLoading}
-              />
-            }
-          />
-
-          {/* <Route path="/profile" element={<Profile onSignOut={handleSignOut}
+          <Route path="/profile" element={<Profile onSignOut={handleSignOut}
             onEdit={handleEditProfile}
-            editModeError={editModeError} />} /> */}
-
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute
-                element={Profile}
-                isLoggedIn={isLoggedIn} isLoading={isLoading}
-                onSignOut={handleSignOut} onEdit={handleEditProfile} editModeError={editModeError}
-              />
-            }
-          />
+            editModeError={editModeError} />} />
 
           <Route path="/sign-up" element={<Register registrationUser={handleUserSignUp} signupError={signupError} />} />
 

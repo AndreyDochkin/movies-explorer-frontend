@@ -2,18 +2,18 @@ import React, { useCallback } from "react";
 import isEmail from 'validator/es/lib/isEmail';
 
 //хук управления формой
-export function useForm() {
-  const [values, setValues] = React.useState({});
+// export function useForm() {
+//   const [values, setValues] = React.useState({});
 
-  const handleChange = (event) => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    setValues({...values, [name]: value});
-  };
+//   const handleChange = (event) => {
+//     const target = event.target;
+//     const value = target.value;
+//     const name = target.name;
+//     setValues({...values, [name]: value});
+//   };
 
-  return {values, handleChange, setValues};
-}
+//   return {values, handleChange, setValues};
+// }
 
 //хук управления формой и валидации формы
 export function useFormWithValidation() {
