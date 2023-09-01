@@ -14,9 +14,7 @@ function Movies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, onSav
     const [findedMoviesList, setFindedMoviesList] = useState([]);
     const [currentSearchText, setCurrentSearchText] = useState('');
 
-
-
-    console.log("Movies findedMoviesList", findedMoviesList);
+    // console.log("Movies findedMoviesList", findedMoviesList);
 
     function handleCheckShortMovies() {
         setCheckShortMovies(!checkShortMovies);
@@ -68,9 +66,7 @@ function Movies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, onSav
     }, [currentUser, currentSearchText, isSavedMoviesRoute]);
 
     function formatMovies(list) {
-        console.log(list);
         return list.map(item => {
-            console.log(item);
             return {
                 ...item,
                 id: item.movieId,

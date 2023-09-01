@@ -10,7 +10,6 @@ function SavedMovies({ isLoading, setIsLoading, baseUrl, moviesList, savedMovies
     const currentUser = useContext(CurrentUserContext);
     const [checkShortMovies, setCheckShortMovies] = useState(false);
     const [findedMoviesList, setFindedMoviesList] = useState([]);
-    console.log('Movies findedMoviesList start',findedMoviesList);
 
     function handleCheckShortMovies() {
         setCheckShortMovies(!checkShortMovies);
@@ -22,8 +21,6 @@ function SavedMovies({ isLoading, setIsLoading, baseUrl, moviesList, savedMovies
             filterByShortDuration(filteredMovies) :
             filteredMovies;
         setFindedMoviesList(resultMovies);
-
-        console.log('handle find result',resultMovies);
     }
 
     function handleSearch(searchText) {
