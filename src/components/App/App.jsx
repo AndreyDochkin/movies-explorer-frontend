@@ -136,6 +136,14 @@ function App() {
         setIsLoading(false);
       });
   }, [isLoggedIn, currentUser, navigate]);
+  
+  // Очищаем localStorage при переходе на другой роут
+  useEffect(() => {
+    if (location.pathname === '/movies') return;
+    localStorage.removeItem(`${currentUser.email}:movies`);
+    localStorage.removeItem(`${currentUser.email}:searchText`);
+    localStorage.removeItem(`${currentUser.email}:checkShortMovies`);
+}, [location.pathname, currentUser]);
 
   function handleUserSignUp(email, password, name) {
     setIsLoading(true);
@@ -161,7 +169,6 @@ function App() {
           localStorage.setItem("jwt", data.token);
           mainApi.setHeaderToken(data.token);
           setIsLoggedIn(true);
-          // history.push('/movies');
           navigate('/movies');
         }
       })
@@ -197,23 +204,19 @@ function App() {
   }
 
   function handleSaveMovie(movie) {
-    setIsLoading(true);
-
     if (savedMoviesList.some(m => m.movieId === movie.id || m.movieId === movie.movieId)) return;
 
-    const thumbnail = `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`;
-    const image = `https://api.nomoreparties.co${movie.image.url}`;
     const movieForSave = {
       country: movie.country,
       director: movie.director,
       duration: movie.duration,
       year: movie.year,
       description: movie.description,
-      image: image,
+      image: `https://api.nomoreparties.co${movie.image.url}`,
       trailerLink: movie.trailerLink,
       nameRU: movie.nameRU,
       nameEN: movie.nameEN,
-      thumbnail: thumbnail,
+      thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
       movieId: movie.id,
     }
 
@@ -221,15 +224,11 @@ function App() {
       .addMovie(movieForSave)
       .then((newMovie) => setSavedMoviesList([newMovie.data, ...savedMoviesList]))
       .catch(err => console.log(err))
-      .finally(() => {
-        setIsLoading(false);
-      })
   }
 
   function handleDeleteMovie(movie) {
     if (!movie) return;
     const savedMovie = savedMoviesList.find(m => m.movieId === movie.id || m.movieId === movie.movieId);
-
     mainApi
       .deleteMovie(savedMovie._id)
       .then(() => {
@@ -241,10 +240,12 @@ function App() {
       .catch(err => console.log(err));
   }
 
-  console.log('isLoading', isLoading);
-  console.log('isLoggedIn', isLoggedIn);
-  console.log('savedMoviesList', savedMoviesList.length);
-  console.log('moviesList', moviesList.length);
+
+console.log('isLoading', isLoading);
+console.log('isLoggedIn', isLoggedIn);
+console.log('savedMoviesList', savedMoviesList.length);
+console.log('moviesList', moviesList.length);
+
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -273,6 +274,7 @@ function App() {
                   savedList={savedMoviesList}
                   onSaveClick={handleSaveMovie}
                   onDeleteClick={handleDeleteMovie}
+                  isSavedMoviesRoute = {isSavedMoviesRoute}
                 /> : <Preloader />
             } />
 
@@ -289,6 +291,7 @@ function App() {
                   savedList={savedMoviesList}
                   onSaveClick={handleSaveMovie}
                   onDeleteClick={handleDeleteMovie}
+                  isSavedMoviesRoute = {isSavedMoviesRoute}
                 /> : <Preloader />
             } />
 
@@ -298,6 +301,7 @@ function App() {
                 <ProtectedRoute
                   element={Profile}
                   isLoggedIn={isLoggedIn}
+                  isLoading={isLoading}
                   onSignOut={handleSignOut}
                   onEdit={handleEditProfile}
                   editModeError={editModeError}

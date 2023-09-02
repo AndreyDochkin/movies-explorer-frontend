@@ -8,7 +8,7 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 import { filterBySearchText, filterByShortDuration } from '../../utils/utils';
 
-function Movies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, onSaveClick, onDeleteClick }) {
+function Movies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, onSaveClick, onDeleteClick, isSavedMoviesRoute }) {
     const navigate = useNavigate();
     const location = useLocation();
     const currentUser = useContext(CurrentUserContext);
@@ -36,6 +36,7 @@ function Movies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, onSav
         localStorage.setItem(`${currentUser.email}:checkShortMovies`, checkShortMovies);
     }
 
+
     // useEffect(() => {
     //     setFindedMoviesList(moviesList);
     // }, [moviesList]);
@@ -58,6 +59,7 @@ function Movies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, onSav
                 baseUrl={baseUrl}
                 onSaveClick={onSaveClick}
                 onDeleteClick={onDeleteClick}
+                isSavedMoviesRoute={isSavedMoviesRoute}
             /> : <Preloader />}
         </main>
     );

@@ -6,9 +6,9 @@ import Preloader from '../Preloader/Preloader';
 
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-import { filterBySearchText, filterByShortDuration, formatMovies } from '../../utils/utils';
+import { filterBySearchText, filterByShortDuration, formatMoviesLoacalToApi } from '../../utils/utils';
 
-function SavedMovies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, onSaveClick, onDeleteClick }) {
+function SavedMovies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, onSaveClick, onDeleteClick, isSavedMoviesRoute }) {
     const navigate = useNavigate();
     const location = useLocation();
     const currentUser = useContext(CurrentUserContext);
@@ -20,19 +20,12 @@ function SavedMovies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, 
         setCheckShortMovies(!checkShortMovies);
     }
 
-    function handleFilterMovies(movies, searchText, checkShortMovies) {
-        const filteredMovies = searchText ? filterBySearchText(movies, searchText) : movies;
-
-        const resultMovies = checkShortMovies ?
-            filterByShortDuration(filteredMovies) :
-            filteredMovies;
-        return resultMovies;
-    }
-
     function handleSearch(searchText) {
-        setCurrentSearchText(searchText);
-        const searchResult = handleFilterMovies(savedList, searchText, checkShortMovies);
+        const filteredMovies = searchText ? filterBySearchText(savedList, searchText) : savedList;
+        const searchResult = checkShortMovies ? filterByShortDuration(filteredMovies) : filteredMovies;
         setFindedMoviesList(searchResult);
+        setCurrentSearchText(searchText);
+        setCheckShortMovies(checkShortMovies);
     }
 
     useEffect(() => {
@@ -48,11 +41,12 @@ function SavedMovies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, 
                 checkShortMovies={checkShortMovies}
             />
             {!isLoading ? <MoviesCardList
-                moviesList={formatMovies(findedMoviesList,baseUrl)}
+                moviesList={formatMoviesLoacalToApi(findedMoviesList, baseUrl)}
                 savedList={savedList}
                 baseUrl={baseUrl}
                 onSaveClick={onSaveClick}
                 onDeleteClick={onDeleteClick}
+                isSavedMoviesRoute={isSavedMoviesRoute}
             /> : <Preloader />}
         </main>
     );

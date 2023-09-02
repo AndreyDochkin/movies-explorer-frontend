@@ -2,24 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteClick }) {
+function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteClick, isSavedMoviesRoute }) {
     const location = useLocation();
     const [moviesDisplay, setMoviesDisplay] = useState([]);
-    const [totalDisplay, setTotalDisplay] = useState(12); //total amount of displaed movies
+    const [totalDisplay, setTotalDisplay] = useState(9); //total amount of displaed movies
     const [deltaDisplay, setDeltaDisplay] = useState(3); //grower for amount of dislaped movies
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const [isMoviesListLoaded, setIsMoviesListLoaded] = useState(false);
 
-    const isSavedMoviesRoute = location.pathname === '/saved-movies';
     const handleResize = () => {
         setTimeout(() => {
             setScreenWidth(window.innerWidth);
         }, 1000);
     };
-
-    function handleClickMoreMovies() {
-        setTotalDisplay(totalDisplay + deltaDisplay);
-    }
 
     useEffect(() => {
         window.addEventListener('resize', handleResize);
@@ -28,6 +23,10 @@ function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteC
             window.removeEventListener('resize', handleResize);
         };
     }, []);
+
+    function handleClickMoreMovies() {
+        setTotalDisplay(totalDisplay + deltaDisplay);
+    }
 
     useEffect(() => {
         if (screenWidth > 1200) {
@@ -56,6 +55,10 @@ function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteC
     function checkIsMovieSaved(list, item) {
         return !isSavedMoviesRoute ? list.some((movie) => movie.movieId === (item.movieId || item.id)) : false;
     }
+
+    console.log('moviesDisplay', moviesDisplay);
+    console.log('moviesList.length', moviesList.length);
+    console.log('totalDisplay', totalDisplay);
 
     return (
         <section className="movies">

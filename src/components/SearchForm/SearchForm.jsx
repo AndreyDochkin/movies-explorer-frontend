@@ -10,13 +10,6 @@ function SearchForm({ searchText, handleSearch, handleCheckShortMovies, checkSho
 
     const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
-    useEffect(() => {
-        // Очищаем localStorage при переходе на другой роут
-        if (location.pathname === '/movies') return;
-        localStorage.removeItem(`${currentUser.email}:movies`);
-        localStorage.removeItem(`${currentUser.email}:searchText`);
-        localStorage.removeItem(`${currentUser.email}:checkShortMovies`);
-    }, [location.pathname, currentUser.email]);
 
     useEffect(() => {
         values.search = searchText
