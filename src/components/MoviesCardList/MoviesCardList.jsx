@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteClick, isSavedMoviesRoute }) {
+function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteClick }) {
     const location = useLocation();
     const [moviesDisplay, setMoviesDisplay] = useState([]);
     const [totalDisplay, setTotalDisplay] = useState(12); //total amount of displaed movies
@@ -10,6 +10,7 @@ function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteC
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const [isMoviesListLoaded, setIsMoviesListLoaded] = useState(false);
 
+    const isSavedMoviesRoute = location.pathname === '/saved-movies';
     const handleResize = () => {
         setTimeout(() => {
             setScreenWidth(window.innerWidth);
@@ -44,7 +45,8 @@ function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteC
 
 
     useEffect(() => {
-        if (moviesList.length) setMoviesDisplay(moviesList.slice(0, totalDisplay));
+        if (moviesList.length && !isSavedMoviesRoute) setMoviesDisplay(moviesList.slice(0, totalDisplay))
+        else setMoviesDisplay(moviesList);
     }, [totalDisplay, moviesList]);
 
     useEffect(() => {

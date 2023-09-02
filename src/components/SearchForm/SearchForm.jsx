@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useLocation , useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function SearchForm({ searchText, handleSearch, handleCheckShortMovies, checkShortMovies,isSavedMoviesRoute }) {
+function SearchForm({ searchText, handleSearch, handleCheckShortMovies, checkShortMovies }) {
     const location = useLocation();
     const navigate = useNavigate();
     const currentUser = useContext(CurrentUserContext);
@@ -11,14 +11,18 @@ function SearchForm({ searchText, handleSearch, handleCheckShortMovies, checkSho
     const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
     useEffect(() => {
-        values.search = searchText;
-    }, [currentUser, searchText, isSavedMoviesRoute]);
+        // Очищаем localStorage при переходе на другой роут
+        if (location.pathname === '/movies') return;
+        localStorage.removeItem(`${currentUser.email}:movies`);
+        localStorage.removeItem(`${currentUser.email}:searchText`);
+        localStorage.removeItem(`${currentUser.email}:checkShortMovies`);
+    }, [location.pathname, currentUser.email]);
 
     useEffect(() => {
-        handleSearch(values.search);
-    }, [checkShortMovies]);
+        values.search = searchText
+    }, [searchText]);
 
-     function handleSubmit(e) {
+    function handleSubmit(e) {
         e.preventDefault();
         handleSearch(values.search);
     }

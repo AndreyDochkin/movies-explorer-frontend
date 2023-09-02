@@ -1,5 +1,5 @@
-import React from 'react'
-import { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
@@ -8,95 +8,59 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 import { filterBySearchText, filterByShortDuration } from '../../utils/utils';
 
-function Movies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, onSaveClick, onDeleteClick, isSavedMoviesRoute }) {
+function Movies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, onSaveClick, onDeleteClick }) {
+    const navigate = useNavigate();
+    const location = useLocation();
     const currentUser = useContext(CurrentUserContext);
-    const [checkShortMovies, setCheckShortMovies] = useState(false);
-    const [findedMoviesList, setFindedMoviesList] = useState([]);
-    const [currentSearchText, setCurrentSearchText] = useState('');
 
-    // console.log("Movies findedMoviesList", findedMoviesList);
+    const [checkShortMovies, setCheckShortMovies] = useState(
+        localStorage.getItem(`${currentUser.email}:checkShortMovies`) === 'true'
+    );
+    const [findedMoviesList, setFindedMoviesList] = useState(
+        JSON.parse(localStorage.getItem(`${currentUser.email}:movies`)) || []
+    );
+    const [currentSearchText, setCurrentSearchText] = useState(
+        localStorage.getItem(`${currentUser.email}:searchText`) || ''
+    );
+
+    function handleSearch(searchText) {
+        const filteredMovies = searchText ? filterBySearchText(moviesList, searchText) : moviesList;
+        const searchResult = checkShortMovies ? filterByShortDuration(filteredMovies) : filteredMovies;
+
+        setFindedMoviesList(searchResult);
+        setCurrentSearchText(searchText);
+        setFindedMoviesList(searchResult);
+
+        localStorage.setItem(`${currentUser.email}:movies`, JSON.stringify(searchResult));
+        localStorage.setItem(`${currentUser.email}:searchText`, searchText);
+        localStorage.setItem(`${currentUser.email}:checkShortMovies`, checkShortMovies);
+    }
+
+    // useEffect(() => {
+    //     setFindedMoviesList(moviesList);
+    // }, [moviesList]);
 
     function handleCheckShortMovies() {
         setCheckShortMovies(!checkShortMovies);
     }
 
-    function handleFilterMovies(movies, searchText, checkShortMovies) {
-        const filteredMovies = searchText ? filterBySearchText(movies, searchText) : movies;
-
-        const resultMovies = checkShortMovies ?
-            filterByShortDuration(filteredMovies) :
-            filteredMovies;
-        return resultMovies
-    }
-
-    function handleSearch(searchText) {
-        localStorage.setItem(`${currentUser.email}:searchText`, searchText);
-        localStorage.setItem(`${currentUser.email}:checkShortMovies`, checkShortMovies);
-        setCurrentSearchText(searchText);
-
-        const searchResult = handleFilterMovies(moviesList, searchText, checkShortMovies);
-
-        if (!isSavedMoviesRoute) localStorage.setItem(`${currentUser.email}:movies`, JSON.stringify(searchResult));
-
-
-        setFindedMoviesList(searchResult);
-    }
-
-    useEffect(() => {
-        if (isSavedMoviesRoute) setFindedMoviesList(moviesList);
-    }, [moviesList, isSavedMoviesRoute]);
-
-    useEffect(() => {
-        if (!isSavedMoviesRoute && localStorage.getItem(`${currentUser.email}:movies`)&& currentSearchText) {
-            const movies = JSON.parse(localStorage.getItem(`${currentUser.email}:movies`));
-            setFindedMoviesList(movies);
-        }
-    }, [currentUser, isSavedMoviesRoute, currentSearchText]);
-
-    useEffect(() => {
-        setCheckShortMovies(
-            (localStorage.getItem(`${currentUser.email}:checkShortMovies`) === 'true')
-                ? true : false)
-    }, [currentUser, checkShortMovies]);
-
-    useEffect(() => {
-        setCurrentSearchText(localStorage.getItem(`${currentUser.email}:searchText`));
-        if (isSavedMoviesRoute) localStorage.setItem(`${currentUser.email}:searchText`, '');
-
-    }, [currentUser, currentSearchText, isSavedMoviesRoute]);
-
-    function formatMovies(list) {
-        return list.map(item => {
-            return {
-                ...item,
-                id: item.movieId,
-                image: {
-                    url: item.image.replace(baseUrl, "")
-                },
-            }
-        });
-    }
-
     return (
         <main>
             <SearchForm
-                searchText={currentSearchText}//{localStorage.getItem(`${currentUser.email}:searchText`)}
+                searchText={currentSearchText}
                 handleSearch={handleSearch}
                 handleCheckShortMovies={handleCheckShortMovies}
                 checkShortMovies={checkShortMovies}
-                isSavedMoviesRoute={isSavedMoviesRoute}
             />
             {!isLoading ? <MoviesCardList
-                moviesList={isSavedMoviesRoute ? formatMovies(findedMoviesList) : findedMoviesList}
-                // moviesList={findedMoviesList}
+                moviesList={findedMoviesList}
                 savedList={savedList}
                 baseUrl={baseUrl}
                 onSaveClick={onSaveClick}
                 onDeleteClick={onDeleteClick}
-                isSavedMoviesRoute={isSavedMoviesRoute} /> : <Preloader />}
+            /> : <Preloader />}
         </main>
     );
 }
 
-export default Movies
-
+export default Movies;
