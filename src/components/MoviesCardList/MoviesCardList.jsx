@@ -56,10 +56,6 @@ function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteC
         return !isSavedMoviesRoute ? list.some((movie) => movie.movieId === (item.movieId || item.id)) : false;
     }
 
-    console.log('moviesDisplay', moviesDisplay);
-    console.log('moviesList.length', moviesList.length);
-    console.log('totalDisplay', totalDisplay);
-
     return (
         <section className="movies">
             <ul className="movies__list"> {

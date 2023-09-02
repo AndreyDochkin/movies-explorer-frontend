@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function SearchForm({ searchText, handleSearch, handleCheckShortMovies, checkShortMovies }) {
+function SearchForm({ searchText, handleSearch, handleCheckShortMovies, checkShortMovies,listFound}) {
     const location = useLocation();
     const navigate = useNavigate();
     const currentUser = useContext(CurrentUserContext);
@@ -13,7 +13,14 @@ function SearchForm({ searchText, handleSearch, handleCheckShortMovies, checkSho
 
     useEffect(() => {
         values.search = searchText
-    }, [searchText]);
+    }, []);
+
+    
+    useEffect(() => {
+        if(listFound) handleSearch(values.search );
+     },[checkShortMovies])
+
+  
 
     function handleSubmit(e) {
         e.preventDefault();

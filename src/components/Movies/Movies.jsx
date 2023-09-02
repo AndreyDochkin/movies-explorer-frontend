@@ -36,7 +36,6 @@ function Movies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, onSav
         localStorage.setItem(`${currentUser.email}:checkShortMovies`, checkShortMovies);
     }
 
-
     // useEffect(() => {
     //     setFindedMoviesList(moviesList);
     // }, [moviesList]);
@@ -45,6 +44,7 @@ function Movies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, onSav
         setCheckShortMovies(!checkShortMovies);
     }
 
+
     return (
         <main>
             <SearchForm
@@ -52,6 +52,7 @@ function Movies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, onSav
                 handleSearch={handleSearch}
                 handleCheckShortMovies={handleCheckShortMovies}
                 checkShortMovies={checkShortMovies}
+                listFound={moviesList.length>0} //это нужно что бы дождаться зашруженных данных и только потом искать при нажатии переключателя
             />
             {!isLoading ? <MoviesCardList
                 moviesList={findedMoviesList}

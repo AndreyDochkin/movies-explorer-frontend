@@ -39,6 +39,7 @@ function SavedMovies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, 
                 handleSearch={handleSearch}
                 handleCheckShortMovies={handleCheckShortMovies}
                 checkShortMovies={checkShortMovies}
+                listFound={savedList.length > 0} 
             />
             {!isLoading ? <MoviesCardList
                 moviesList={formatMoviesLoacalToApi(findedMoviesList, baseUrl)}
