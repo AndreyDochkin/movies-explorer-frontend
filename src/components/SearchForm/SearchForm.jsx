@@ -1,26 +1,16 @@
-import React, { useEffect, useState, useContext } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function SearchForm({ searchText, handleSearch, handleCheckShortMovies, checkShortMovies,listFound}) {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const currentUser = useContext(CurrentUserContext);
-
     const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
-
 
     useEffect(() => {
         values.search = searchText
     }, []);
-
     
     useEffect(() => {
         if(listFound) handleSearch(values.search );
      },[checkShortMovies])
-
-  
 
     function handleSubmit(e) {
         e.preventDefault();

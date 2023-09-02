@@ -240,12 +240,10 @@ function App() {
       .catch(err => console.log(err));
   }
 
-
-console.log('isLoading', isLoading);
-console.log('isLoggedIn', isLoggedIn);
-console.log('savedMoviesList', savedMoviesList.length);
-console.log('moviesList', moviesList.length);
-
+// console.log('isLoading', isLoading);
+// console.log('isLoggedIn', isLoggedIn);
+// console.log('savedMoviesList', savedMoviesList.length);
+// console.log('moviesList', moviesList.length);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -268,7 +266,6 @@ console.log('moviesList', moviesList.length);
                   element={Movies}
                   isLoggedIn={isLoggedIn}
                   isLoading={isLoading}
-                  setIsLoading={setIsLoading}
                   baseUrl={'https://api.nomoreparties.co'}
                   moviesList={moviesList}
                   savedList={savedMoviesList}
@@ -285,7 +282,6 @@ console.log('moviesList', moviesList.length);
                   element={SavedMovies}
                   isLoggedIn={isLoggedIn}
                   isLoading={isLoading}
-                  setIsLoading={setIsLoading}
                   baseUrl={'https://api.nomoreparties.co'}
                   moviesList={moviesList}
                   savedList={savedMoviesList}
@@ -307,36 +303,6 @@ console.log('moviesList', moviesList.length);
                   editModeError={editModeError}
                 /> : <Preloader />
             } />
-
-          {/* <Route path="/movies" element={
-            Object.keys(preloadedData).every(key => preloadedData[key] === true)  ?
-            <Movies
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-              baseUrl={'https://api.nomoreparties.co'}
-              moviesList={moviesList}
-              savedList={savedMoviesList}
-              onSaveClick={handleSaveMovie}
-              onDeleteClick={handleDeleteMovie}
-              isSavedMoviesRoute={isSavedMoviesRoute} />
-              :
-              <Preloader />
-          } /> 
-
-           <Route path="/saved-movies" element={
-            <SavedMovies
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-              baseUrl={'https://api.nomoreparties.co'}
-              moviesList={savedMoviesList}
-              savedList={savedMoviesList}
-              onSaveClick={handleSaveMovie}
-              onDeleteClick={handleDeleteMovie}
-            />
-          } /> 
-           <Route path="/profile" element={<Profile onSignOut={handleSignOut}
-            onEdit={handleEditProfile}
-            editModeError={editModeError} />} /> */}
 
           <Route path="/sign-up" element={<Register registrationUser={handleUserSignUp} signupError={signupError} />} />
 

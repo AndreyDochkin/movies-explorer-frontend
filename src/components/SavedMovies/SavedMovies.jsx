@@ -1,17 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-
 import { filterBySearchText, filterByShortDuration, formatMoviesLoacalToApi } from '../../utils/utils';
 
-function SavedMovies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, onSaveClick, onDeleteClick, isSavedMoviesRoute }) {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const currentUser = useContext(CurrentUserContext);
+function SavedMovies({ isLoading, baseUrl, moviesList, savedList, onSaveClick, onDeleteClick, isSavedMoviesRoute }) {
     const [checkShortMovies, setCheckShortMovies] = useState(false);
     const [findedMoviesList, setFindedMoviesList] = useState([]);
     const [currentSearchText, setCurrentSearchText] = useState('');

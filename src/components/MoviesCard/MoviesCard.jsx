@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useContext } from 'react';
-import { Link, useLocation } from "react-router-dom";
 
 import {convertDurationToHoursMinutes} from '../../utils/utils';
 
 function MoviesCard({ isSavedMoviesRoute, isMovieSaved, movie,onDeleteClick,onSaveClick,baseUrl}) {
-    // const useLocation().pathname === '/saved-movies';
-
     function handleClick() {
         window.open(movie.trailerLink, '_blank');
     }

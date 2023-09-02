@@ -8,7 +8,7 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 import { filterBySearchText, filterByShortDuration } from '../../utils/utils';
 
-function Movies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, onSaveClick, onDeleteClick, isSavedMoviesRoute }) {
+function Movies({ isLoading, baseUrl, moviesList, savedList, onSaveClick, onDeleteClick, isSavedMoviesRoute }) {
     const navigate = useNavigate();
     const location = useLocation();
     const currentUser = useContext(CurrentUserContext);
@@ -35,10 +35,6 @@ function Movies({ isLoading, setIsLoading, baseUrl, moviesList, savedList, onSav
         localStorage.setItem(`${currentUser.email}:searchText`, searchText);
         localStorage.setItem(`${currentUser.email}:checkShortMovies`, checkShortMovies);
     }
-
-    // useEffect(() => {
-    //     setFindedMoviesList(moviesList);
-    // }, [moviesList]);
 
     function handleCheckShortMovies() {
         setCheckShortMovies(!checkShortMovies);
