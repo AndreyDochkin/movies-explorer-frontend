@@ -28,7 +28,8 @@ const moviesApi = new MoviesApi({
 
 const mainApi = new MainApi({
   // baseUrl: 'http://api.moviematchup.nomoreparties.sbs',
-  baseUrl: 'http://localhost:4000',
+  // baseUrl: 'http://localhost:4000',
+  baseUrl: 'https://api.moviematchup.nomoreparties.sbs',
   headers: {
     "Content-Type": "application/json",
     authorization: `Bearer ${localStorage.getItem('jwt')}`,
@@ -101,7 +102,7 @@ function App() {
   // получение списка фильмов от внешнего api
   useEffect(() => {
 
-    if (!isLoggedIn && moviesList.length) {
+    if (!isLoggedIn || moviesList.length) {
       return;
     }
 
@@ -120,7 +121,7 @@ function App() {
 
   // получение списка сохраненных фильмов
   useEffect(() => {
-    if (!isLoggedIn && !currentUser) {
+    if (!isLoggedIn || !currentUser) {
       return;
     }
 
