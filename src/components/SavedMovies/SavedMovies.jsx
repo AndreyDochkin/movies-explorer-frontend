@@ -26,6 +26,10 @@ function SavedMovies({ isLoading, baseUrl, moviesList, savedList, onSaveClick, o
         setFindedMoviesList(savedList);
     }, [savedList]);
 
+    useEffect(() => {
+        handleSearch(currentSearchText);
+    },[savedList])
+
     return (
         <main>
             <SearchForm
