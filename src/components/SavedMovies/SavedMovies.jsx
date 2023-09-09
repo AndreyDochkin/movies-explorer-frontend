@@ -5,10 +5,11 @@ import Preloader from '../Preloader/Preloader';
 
 import { filterBySearchText, filterByShortDuration, formatMoviesLoacalToApi } from '../../utils/utils';
 
-function SavedMovies({ isLoading, baseUrl, moviesList, savedList, onSaveClick, onDeleteClick, isSavedMoviesRoute }) {
+function SavedMovies({ isLoading, baseUrl, savedList, onSaveClick, onDeleteClick, isSavedMoviesRoute }) {
     const [checkShortMovies, setCheckShortMovies] = useState(false);
-    const [findedMoviesList, setFindedMoviesList] = useState([]);
+    const [findedMoviesList, setFindedMoviesList] = useState(savedList);
     const [currentSearchText, setCurrentSearchText] = useState('');
+    const [shortList, setShortList] = useState([]);
 
     function handleCheckShortMovies() {
         setCheckShortMovies(!checkShortMovies);
@@ -27,8 +28,15 @@ function SavedMovies({ isLoading, baseUrl, moviesList, savedList, onSaveClick, o
     }, [savedList]);
 
     useEffect(() => {
-        handleSearch(currentSearchText);
-    },[savedList])
+        handleSearch(currentSearchText, checkShortMovies);
+    }, [savedList, currentSearchText, checkShortMovies]);
+
+    useEffect(() => {
+        if (checkShortMovies) {
+            const short = filterByShortDuration(findedMoviesList);
+            setShortList(short);
+        }
+    }, [savedList, findedMoviesList, checkShortMovies]);
 
     return (
         <main>
@@ -37,10 +45,10 @@ function SavedMovies({ isLoading, baseUrl, moviesList, savedList, onSaveClick, o
                 handleSearch={handleSearch}
                 handleCheckShortMovies={handleCheckShortMovies}
                 checkShortMovies={checkShortMovies}
-                listFound={savedList.length > 0} 
+                listFound={savedList.length > 0}
             />
             {!isLoading ? <MoviesCardList
-                moviesList={formatMoviesLoacalToApi(findedMoviesList, baseUrl)}
+                moviesList={formatMoviesLoacalToApi(checkShortMovies ? shortList : findedMoviesList, baseUrl)}
                 savedList={savedList}
                 baseUrl={baseUrl}
                 onSaveClick={onSaveClick}

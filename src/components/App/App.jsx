@@ -18,14 +18,6 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import ProtectedRoute from "../../utils/ProtectedRoute";
 import SavedMovies from "../SavedMovies/SavedMovies";
 
-
-const moviesApi = new MoviesApi({
-  baseUrl: 'https://api.nomoreparties.co',
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
 const mainApi = new MainApi({
   // baseUrl: 'http://api.moviematchup.nomoreparties.sbs',
   // baseUrl: 'http://localhost:4000',
@@ -39,12 +31,6 @@ const mainApi = new MainApi({
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
-
-  // const [preloadedData, setPreloadedData] = useState({
-  //   token: false,
-  //   savedMovies: false,
-  //   apiMovies: false,
-  // });
 
   const [currentUser, setCurrentUser] = useState({});
   const [signupError, setSignupErrorError] = useState('');
@@ -82,42 +68,42 @@ function App() {
         setIsLoading(false);
       });
 
-  }, [navigate]);
+  }, []);
 
   // получение информации о пользователе при входе
-  useEffect(() => {
-    if (isLoggedIn) {
-      setIsLoading(true);
-      mainApi
-        .getCurrentUser()
-        .then(res => {
-          setCurrentUser(res.data)
-        })
-        .catch(err => console.log(err))
-        .finally(() => { setIsLoading(false) });
-    }
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     setIsLoading(true);
+  //     mainApi
+  //       .getCurrentUser()
+  //       .then(res => {
+  //         setCurrentUser(res.data)
+  //       })
+  //       .catch(err => console.log(err))
+  //       .finally(() => { setIsLoading(false) });
+  //   }
+  // }, [isLoggedIn]);
 
 
-  // получение списка фильмов от внешнего api
-  useEffect(() => {
+  // // получение списка фильмов от внешнего api
+  // useEffect(() => {
 
-    if (!isLoggedIn || moviesList.length) {
-      return;
-    }
+  //   if (!isLoggedIn || moviesList.length) {
+  //     return;
+  //   }
 
-    setIsLoading(true);
-    moviesApi.getMovies()
-      .then((movies) => {
-        setMoviesList(movies);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [isLoggedIn, navigate]);
+  //   setIsLoading(true);
+  //   moviesApi.getMovies()
+  //     .then((movies) => {
+  //       setMoviesList(movies);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //     });
+  // }, [isLoggedIn, navigate]);
 
   // получение списка сохраненных фильмов
   useEffect(() => {
@@ -136,16 +122,8 @@ function App() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [isLoggedIn, currentUser, navigate]);
+  }, [isLoggedIn]);
   
-  // Очищаем localStorage при переходе на другой роут
-  useEffect(() => {
-    if (location.pathname === '/movies') return;
-    localStorage.removeItem(`${currentUser.email}:movies`);
-    localStorage.removeItem(`${currentUser.email}:searchText`);
-    localStorage.removeItem(`${currentUser.email}:checkShortMovies`);
-}, [location.pathname, currentUser]);
-
   function handleUserSignUp(email, password, name) {
     setIsLoading(true);
     mainApi.registerUser(email, password, name)
@@ -241,11 +219,6 @@ function App() {
       .catch(err => console.log(err));
   }
 
-// console.log('isLoading', isLoading);
-// console.log('isLoggedIn', isLoggedIn);
-// console.log('savedMoviesList', savedMoviesList.length);
-// console.log('moviesList', moviesList.length);
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
 
@@ -267,13 +240,13 @@ function App() {
                   element={Movies}
                   isLoggedIn={isLoggedIn}
                   isLoading={isLoading}
+                  setIsLoading={setIsLoading}
                   baseUrl={'https://api.nomoreparties.co'}
-                  moviesList={moviesList}
                   savedList={savedMoviesList}
                   onSaveClick={handleSaveMovie}
                   onDeleteClick={handleDeleteMovie}
-                  isSavedMoviesRoute = {isSavedMoviesRoute}
-                /> : <Preloader />
+                  isSavedMoviesRoute = {isSavedMoviesRoute} />
+                  : <Preloader />
             } />
 
           <Route path="/saved-movies"
@@ -284,7 +257,6 @@ function App() {
                   isLoggedIn={isLoggedIn}
                   isLoading={isLoading}
                   baseUrl={'https://api.nomoreparties.co'}
-                  moviesList={moviesList}
                   savedList={savedMoviesList}
                   onSaveClick={handleSaveMovie}
                   onDeleteClick={handleDeleteMovie}

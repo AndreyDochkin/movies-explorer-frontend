@@ -5,7 +5,7 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteClick, isSavedMoviesRoute }) {
     const location = useLocation();
     const [moviesDisplay, setMoviesDisplay] = useState([]);
-    const [totalDisplay, setTotalDisplay] = useState(9); //total amount of displaed movies
+    const [totalDisplay, setTotalDisplay] = useState(12); //total amount of displaed movies
     const [deltaDisplay, setDeltaDisplay] = useState(3); //grower for amount of dislaped movies
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const [isMoviesListLoaded, setIsMoviesListLoaded] = useState(false);
@@ -30,7 +30,7 @@ function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteC
 
     useEffect(() => {
         if (screenWidth > 1200) {
-            setTotalDisplay(9);
+            setTotalDisplay(12);
             setDeltaDisplay(3);
         } else if (screenWidth <= 1200 && screenWidth > 600) {
             setTotalDisplay(8);
@@ -38,7 +38,7 @@ function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteC
 
         } else {
             setTotalDisplay(5);
-            setDeltaDisplay(1);
+            setDeltaDisplay(2);
         }
     }, [screenWidth])
 
