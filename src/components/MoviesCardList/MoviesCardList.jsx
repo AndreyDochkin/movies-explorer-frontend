@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
+import { DESKTOP_WIDTH, MOBILE_WIDTH } from '../../utils/constants';
+import { MOVIES_AMOUNT, MOVIES_DELTA } from '../../utils/constants';
 
-function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteClick, isSavedMoviesRoute }) {
-    const location = useLocation();
+function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteClick, isSavedMoviesRoute, isFirstRender }) {
     const [moviesDisplay, setMoviesDisplay] = useState([]);
-    const [totalDisplay, setTotalDisplay] = useState(12); //total amount of displaed movies
-    const [deltaDisplay, setDeltaDisplay] = useState(3); //grower for amount of dislaped movies
+    const [totalDisplay, setTotalDisplay] = useState(MOVIES_AMOUNT.DESKTOP); //total amount of displaed movies
+    const [deltaDisplay, setDeltaDisplay] = useState(MOVIES_DELTA.DESKTOP); //grower for amount of dislaped movies
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const [isMoviesListLoaded, setIsMoviesListLoaded] = useState(false);
 
@@ -29,16 +29,15 @@ function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteC
     }
 
     useEffect(() => {
-        if (screenWidth > 1200) {
-            setTotalDisplay(12);
-            setDeltaDisplay(3);
-        } else if (screenWidth <= 1200 && screenWidth > 600) {
-            setTotalDisplay(8);
-            setDeltaDisplay(2);
-
+        if (screenWidth > DESKTOP_WIDTH) {
+            setTotalDisplay(MOVIES_AMOUNT.DESKTOP);
+            setDeltaDisplay(MOVIES_DELTA.DESKTOP);
+        } else if (screenWidth <= DESKTOP_WIDTH && screenWidth > MOBILE_WIDTH) {
+            setTotalDisplay(MOVIES_AMOUNT.TABLET);
+            setDeltaDisplay(MOVIES_DELTA.TABLET);
         } else {
-            setTotalDisplay(5);
-            setDeltaDisplay(2);
+            setTotalDisplay(MOVIES_AMOUNT.MOBILE);
+            setDeltaDisplay(MOVIES_DELTA.MOBILE);
         }
     }, [screenWidth])
 
@@ -60,7 +59,7 @@ function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteC
         <section className="movies">
             <ul className="movies__list"> {
                 isMoviesListLoaded ?
-                    <div className='movies__not-found'> Ничего не найдено</div>
+                    <div className='movies__not-found'> {isFirstRender ? '' : 'Ничего не найдено'}</div>
                     :
                     moviesDisplay.map((movie) => (
                         <MoviesCard

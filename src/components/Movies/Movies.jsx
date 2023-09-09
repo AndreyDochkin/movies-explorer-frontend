@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
@@ -10,16 +9,16 @@ import { filterBySearchText, filterByShortDuration } from '../../utils/utils';
 
 import MoviesApi from '../../utils/MoviesApi';
 
+import { BASE_URL, BASE_URL_API_MOVIES } from '../../utils/constants';
+
 const moviesApi = new MoviesApi({
-    baseUrl: 'https://api.nomoreparties.co',
+    baseUrl: BASE_URL_API_MOVIES,
     headers: {
         "Content-Type": "application/json",
     },
 });
 
 function Movies({ isLoading, setIsLoading, baseUrl, savedList, onSaveClick, onDeleteClick, isSavedMoviesRoute }) {
-    const navigate = useNavigate();
-    const location = useLocation();
     const currentUser = useContext(CurrentUserContext);
 
     const [checkShortMovies, setCheckShortMovies] = useState(
@@ -32,7 +31,10 @@ function Movies({ isLoading, setIsLoading, baseUrl, savedList, onSaveClick, onDe
         localStorage.getItem(`${currentUser.email}:searchText`) || ''
     );
 
-    const [mainMoviesList, setMainMoviesList] = useState([]);
+    const [mainList, setMainList] = useState(
+        JSON.parse(localStorage.getItem(`${currentUser.email}:mainList`)) || []
+    );
+
     const [shortList, setShortList] = useState([]);
 
     function handleSearch(searchText, check) {
@@ -42,32 +44,33 @@ function Movies({ isLoading, setIsLoading, baseUrl, savedList, onSaveClick, onDe
         setCheckShortMovies(check);
 
 
-        // if (mainMoviesList.length === 0) {
+        if (mainList.length === 0) {
 
-        setIsLoading(true);
-        moviesApi.getMovies()
-            .then((movies) => {
-                setMainMoviesList(movies);
+            setIsLoading(true);
+            moviesApi.getMovies()
+                .then((movies) => {
+                    setMainList(movies);
+                    localStorage.setItem(`${currentUser.email}:mainList`, JSON.stringify(movies));
 
-                const filteredMovies = searchText ? filterBySearchText(movies, searchText) : movies;
-                const searchResult = check ? filterByShortDuration(filteredMovies) : filteredMovies;
+                    const filteredMovies = searchText ? filterBySearchText(movies, searchText) : movies;
+                    const searchResult = check ? filterByShortDuration(filteredMovies) : filteredMovies;
 
-                setFindedMoviesList(searchResult);
-                localStorage.setItem(`${currentUser.email}:movies`, JSON.stringify(searchResult));
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-        // } else {
-        //     const filteredMovies = searchText ? filterBySearchText(mainMoviesList, searchText) : mainMoviesList;
-        //     const searchResult = check ? filterByShortDuration(filteredMovies) : filteredMovies;
+                    setFindedMoviesList(searchResult);
+                    localStorage.setItem(`${currentUser.email}:movies`, JSON.stringify(searchResult));
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                });
+        } else {
+            const filteredMovies = searchText ? filterBySearchText(mainList, searchText) : mainList;
+            const searchResult = check ? filterByShortDuration(filteredMovies) : filteredMovies;
 
-        //     setFindedMoviesList(searchResult);
-        //     localStorage.setItem(`${currentUser.email}:movies`, JSON.stringify(searchResult));
-        // }
+            setFindedMoviesList(searchResult);
+            localStorage.setItem(`${currentUser.email}:movies`, JSON.stringify(searchResult));
+        }
 
     }
 
@@ -77,16 +80,20 @@ function Movies({ isLoading, setIsLoading, baseUrl, savedList, onSaveClick, onDe
 
 
     useEffect(() => {
-        if(checkShortMovies){
+        if (checkShortMovies) {
             const short = filterByShortDuration(findedMoviesList);
             setShortList(short);
         }
-        
+
         localStorage.setItem(`${currentUser.email}:checkShortMovies`, checkShortMovies);
 
     }, [checkShortMovies]);
 
     useEffect(() => {
+
+        if (localStorage.getItem(`${currentUser.email}:mainList`)) {
+            setMainList(JSON.parse(localStorage.getItem(`${currentUser.email}:mainList`)));
+        }
 
         if (localStorage.getItem(`${currentUser.email}:movies`)) {
             setFindedMoviesList(JSON.parse(localStorage.getItem(`${currentUser.email}:movies`)));
@@ -116,6 +123,7 @@ function Movies({ isLoading, setIsLoading, baseUrl, savedList, onSaveClick, onDe
                 onSaveClick={onSaveClick}
                 onDeleteClick={onDeleteClick}
                 isSavedMoviesRoute={isSavedMoviesRoute}
+                isFirstRender={mainList.length > 0 ? false : true}
             /> : <Preloader />}
         </main>
     );

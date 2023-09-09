@@ -18,10 +18,12 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import ProtectedRoute from "../../utils/ProtectedRoute";
 import SavedMovies from "../SavedMovies/SavedMovies";
 
+import {BASE_URL, BASE_URL_API_MOVIES} from "../../utils/constants";
+
 const mainApi = new MainApi({
   // baseUrl: 'http://api.moviematchup.nomoreparties.sbs',
   // baseUrl: 'http://localhost:4000',
-  baseUrl: 'https://api.moviematchup.nomoreparties.sbs',
+  baseUrl: BASE_URL,
   headers: {
     "Content-Type": "application/json",
     authorization: `Bearer ${localStorage.getItem('jwt')}`,
@@ -36,8 +38,9 @@ function App() {
   const [signupError, setSignupErrorError] = useState('');
   const [loginError, setLoginError] = useState('');
   const [editModeError, setEditModeError] = useState('');
-  const [isLoading, setIsLoading] = useState(true); //useState((localStorage.getItem("jwt") ? true : false));
+  const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isBooted, setIsBooted] = useState(false); // надо дождаться проверки логина и уже потом грузить все остальные компоненты
   const [moviesList, setMoviesList] = useState([]);
   const [savedMoviesList, setSavedMoviesList] = useState([]);
   const [isSavedMoviesRoute, setIsSavedMoviesRoute] = useState(false);
@@ -51,6 +54,7 @@ function App() {
     const jwt = localStorage.getItem("jwt");
 
     if (!jwt) {
+      setIsBooted(true);
       setIsLoggedIn(false);
       return;
     }
@@ -66,6 +70,7 @@ function App() {
       .catch(err => console.log(err))
       .finally(() => {
         setIsLoading(false);
+        setIsBooted(true);
       });
 
   }, []);
@@ -110,7 +115,6 @@ function App() {
     if (!isLoggedIn || !currentUser) {
       return;
     }
-
     setIsLoading(true);
     mainApi
       .getMovies()
@@ -122,8 +126,8 @@ function App() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [isLoggedIn]);
-  
+  }, []);
+
   function handleUserSignUp(email, password, name) {
     setIsLoading(true);
     mainApi.registerUser(email, password, name)
@@ -191,11 +195,11 @@ function App() {
       duration: movie.duration,
       year: movie.year,
       description: movie.description,
-      image: `https://api.nomoreparties.co${movie.image.url}`,
+      image: `${BASE_URL_API_MOVIES}${movie.image.url}`,
       trailerLink: movie.trailerLink,
       nameRU: movie.nameRU,
       nameEN: movie.nameEN,
-      thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+      thumbnail: `${BASE_URL_API_MOVIES}${movie.image.formats.thumbnail.url}`,
       movieId: movie.id,
     }
 
@@ -221,76 +225,83 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
+      {isBooted &&
 
-      <div className="app">
+        <div className="app">
 
-        <Routes>
-          {['/', '/movies', '/saved-movies', '/profile']
-            .map((path, index) => <Route path={path} key={index} element={<Header isLoggedIn={isLoggedIn} />} />)}
-        </Routes>
+          <Routes>
+            {['/', '/movies', '/saved-movies', '/profile']
+              .map((path, index) => <Route path={path} key={index} element={<Header isLoggedIn={isLoggedIn} />} />)}
+          </Routes>
 
-        <Routes>
+          <Routes>
 
-          <Route exact path="/" element={<Main />} />
+            <Route exact path="/" element={<Main />} />
 
-          <Route path="/movies"
-            element={
-              !isLoading ?
-                <ProtectedRoute
-                  element={Movies}
-                  isLoggedIn={isLoggedIn}
-                  isLoading={isLoading}
-                  setIsLoading={setIsLoading}
-                  baseUrl={'https://api.nomoreparties.co'}
-                  savedList={savedMoviesList}
-                  onSaveClick={handleSaveMovie}
-                  onDeleteClick={handleDeleteMovie}
-                  isSavedMoviesRoute = {isSavedMoviesRoute} />
+            <Route path="/movies"
+              element={
+                !isLoading ?
+                  <ProtectedRoute
+                    element={Movies}
+                    isLoggedIn={isLoggedIn}
+                    isLoading={isLoading}
+                    setIsLoading={setIsLoading}
+                    baseUrl={BASE_URL_API_MOVIES}
+                    savedList={savedMoviesList}
+                    onSaveClick={handleSaveMovie}
+                    onDeleteClick={handleDeleteMovie}
+                    isSavedMoviesRoute={isSavedMoviesRoute} />
                   : <Preloader />
-            } />
+              } />
 
-          <Route path="/saved-movies"
-            element={
-              !isLoading ?
-                <ProtectedRoute
-                  element={SavedMovies}
-                  isLoggedIn={isLoggedIn}
-                  isLoading={isLoading}
-                  baseUrl={'https://api.nomoreparties.co'}
-                  savedList={savedMoviesList}
-                  onSaveClick={handleSaveMovie}
-                  onDeleteClick={handleDeleteMovie}
-                  isSavedMoviesRoute = {isSavedMoviesRoute}
-                /> : <Preloader />
-            } />
+            <Route path="/saved-movies"
+              element={
+                !isLoading ?
+                  <ProtectedRoute
+                    element={SavedMovies}
+                    isLoggedIn={isLoggedIn}
+                    isLoading={isLoading}
+                    baseUrl={BASE_URL_API_MOVIES}
+                    savedList={savedMoviesList}
+                    onSaveClick={handleSaveMovie}
+                    onDeleteClick={handleDeleteMovie}
+                    isSavedMoviesRoute={isSavedMoviesRoute}
+                  /> : <Preloader />
+              } />
 
-          <Route path="/profile"
-            element={
-              !isLoading ?
-                <ProtectedRoute
-                  element={Profile}
-                  isLoggedIn={isLoggedIn}
-                  isLoading={isLoading}
-                  onSignOut={handleSignOut}
-                  onEdit={handleEditProfile}
-                  editModeError={editModeError}
-                /> : <Preloader />
-            } />
+            <Route path="/profile"
+              element={
+                !isLoading ?
+                  <ProtectedRoute
+                    element={Profile}
+                    isLoggedIn={isLoggedIn}
+                    isLoading={isLoading}
+                    onSignOut={handleSignOut}
+                    onEdit={handleEditProfile}
+                    editModeError={editModeError}
+                  /> : <Preloader />
+              } />
 
-          <Route path="/sign-up" element={<Register registrationUser={handleUserSignUp} signupError={signupError} />} />
+            <Route path="/sign-up" element={
+              isLoggedIn ? <Navigate to="/movies" /> :
+                <Register registrationUser={handleUserSignUp} signupError={signupError} />} />
 
-          <Route path="/sign-in" element={<Login loginUser={handleLogin} loginError={loginError} />} />
+            <Route path="/sign-in" element={
+              isLoggedIn ? <Navigate to="/movies" /> :
+                <Login loginUser={handleLogin} loginError={loginError} />} />
 
-          <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
 
-        </Routes>
+          </Routes>
 
-        <Routes>
-          {['/movies', '/saved-movies', '/',]
-            .map((path, index) => <Route path={path} key={index} element={<Footer />} />)}
-        </Routes>
+          <Routes>
+            {['/movies', '/saved-movies', '/',]
+              .map((path, index) => <Route path={path} key={index} element={<Footer />} />)}
+          </Routes>
 
-      </div>
+        </div>
+      }
+
     </CurrentUserContext.Provider>
   );
 }

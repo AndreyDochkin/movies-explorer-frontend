@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
-function SearchForm({ searchText, handleSearch, handleCheckShortMovies, checkShortMovies, listFound }) {
+function SearchForm({ searchText, handleSearch, handleCheckShortMovies, checkShortMovies }) {
     const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
     useEffect(() => {
         values.search = searchText;
     }, []);
-
-    // useEffect(() => {
-    //   if(listFound) handleSearch(values.search, checkShortMovies);
-    // }, [checkShortMovies])
 
     function handleSubmit(e) {
         e.preventDefault();

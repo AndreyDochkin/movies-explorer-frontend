@@ -6,7 +6,7 @@ import burgerPath from '../../images/burger_menu_icon.svg';
 import closePath from '../../images/close_icon.svg';
 import Navigation from "../Navigation/Navigation";
 
-function Header({isLoggedIn}) {
+function Header({ isLoggedIn }) {
     const isMainPage = useLocation().pathname === '/';
     // const isLoggedIn = true;
     const isBurger = true;
@@ -36,28 +36,26 @@ function Header({isLoggedIn}) {
                     <>
                         {/* {isBurger ?
                             (<> */}
-                                <img src={burgerPath} className='header__burger' alt="burger menu" onClick={handleOpenCloseBurgerMenu} />
+                        <img src={burgerPath} className='header__burger' alt="burger menu" onClick={handleOpenCloseBurgerMenu} />
 
-                                <div className={`side-menu ${burgerIsOpen ? 'side-menu_open ' : ''}`}>
-                                    <div className="side-menu__container">
-                                        <img src={closePath} className='side-menu__close' alt="burger close" onClick={handleOpenCloseBurgerMenu} />
-                                        <NavLink to="/" className="side-menu__link" >Главная</NavLink>
-                                        <NavLink to="/movies" className="side-menu__link">Фильмы</NavLink>
-                                        <NavLink to="/saved-movies" className="side-menu__link" >Сохранённые фильмы</NavLink>
-                                        <NavLink to="/profile" className="side-menu__account header__button header__button_account" >Аккаунт</NavLink>
-                                    </div>
-                                </div>
-                            {/* </>) :
+                        <div className={`side-menu ${burgerIsOpen ? 'side-menu_open ' : ''}`}>
+                            <div className="side-menu__container">
+                                <img src={closePath} className='side-menu__close' alt="burger close" onClick={handleOpenCloseBurgerMenu} />
+                                <NavLink to="/" className="side-menu__link" >Главная</NavLink>
+                                <NavLink to="/movies" className="side-menu__link">Фильмы</NavLink>
+                                <NavLink to="/saved-movies" className="side-menu__link">Сохранённые фильмы</NavLink>
+                                <NavLink to="/profile" className="side-menu__account header__button header__button_account" >Аккаунт</NavLink>
+                            </div>
+                        </div>
+                        {/* </>) :
                             (<> */}
-                                <nav className="nav">
-                                    <NavLink to="/movies" className="nav__link">Фильмы</NavLink>
-                                    <NavLink to="/saved-movies" className="nav__link" >Сохранённые фильмы</NavLink>
-                                </nav>
-                                <NavLink to="/profile" className="header__button header__button_account">Аккаунт</NavLink>
+                        <nav className="nav">
+                            <NavLink to="/movies" className="nav__link">Фильмы</NavLink>
+                            <NavLink to="/saved-movies" className="nav__link" >Сохранённые фильмы</NavLink>
+                        </nav>
+                        <NavLink to="/profile" className="header__button header__button_account">Аккаунт</NavLink>
 
-                            {/* </>)} */}
-
-
+                        {/* </>)} */}
 
                     </>
                 )}

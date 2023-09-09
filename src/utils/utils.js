@@ -1,3 +1,5 @@
+import { SHORT_MOVIE_DURATION } from "./constants";
+
 export function filterBySearchText(movies, searchText) {
     if (searchText === '') return [];
     return movies.filter((movie) =>
@@ -7,7 +9,7 @@ export function filterBySearchText(movies, searchText) {
 }
 
 export function filterByShortDuration(movies) {
-    return movies.filter((movie) => movie.duration <= 40);
+    return movies.filter((movie) => movie.duration <= SHORT_MOVIE_DURATION);
 }
 
 export function formatMoviesLoacalToApi(list, baseUrl) {
@@ -19,22 +21,6 @@ export function formatMoviesLoacalToApi(list, baseUrl) {
         },
     }));
 }
-
-// export function formatMoviesApiToLocal(movie,baseUrl) {
-//     return {
-//         country: movie.country,
-//         director: movie.director,
-//         duration: movie.duration,
-//         year: movie.year,
-//         description: movie.description,
-//         image: `https://api.nomoreparties.co${movie.image.url}`,
-//         trailerLink: movie.trailerLink,
-//         nameRU: movie.nameRU,
-//         nameEN: movie.nameEN,
-//         thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
-//         movieId: movie.id,
-//     }
-// }
 
 export function convertDurationToHoursMinutes(duration) {
     const hours = Math.floor(duration / 60);
