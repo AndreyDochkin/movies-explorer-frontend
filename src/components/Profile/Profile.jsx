@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
-function Profile({ onSignOut, onEdit, editModeError }) {
+function Profile({ onSignOut, onEdit, editModeError, isLoading }) {
     const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
     const currentUser = useContext(CurrentUserContext);
@@ -16,8 +16,8 @@ function Profile({ onSignOut, onEdit, editModeError }) {
     function handleSubmit(event) {
         event.preventDefault();
         onEdit(values.name, values.email);
-        currentUser.name = values.name;
-        currentUser.email = values.email;
+        // currentUser.name = values.name;
+        // currentUser.email = values.email;
         setEditMode(false);
     }
 
@@ -44,7 +44,7 @@ function Profile({ onSignOut, onEdit, editModeError }) {
                             minLength="2"
                             maxLength="30"
                             required
-                            disabled={!editMode ? true : false}
+                            disabled={!editMode || isLoading ? true : false}
                         />
                     </label>
                     <label className="profile__label">
@@ -56,7 +56,7 @@ function Profile({ onSignOut, onEdit, editModeError }) {
                             value={values.email || ''}
                             onChange={handleChange}
                             required
-                            disabled={!editMode ? true : false}
+                            disabled={!editMode || isLoading ? true : false}
                         />
                     </label>
 
@@ -85,7 +85,7 @@ function Profile({ onSignOut, onEdit, editModeError }) {
                             <div className='profile__error'>{editModeError || ''}</div>
                             <button
                                 type="submit"
-                                className={`profile__button-save ${!isValid && 'profile__button-save_disabled'}`}
+                                className={`profile__button-save ${(!isValid || ( values.name === currentUser.name && values.email === currentUser.email)) && 'profile__button-save_disabled'}`}
                             >
                                 Сохранить
                             </button>
