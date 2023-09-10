@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
-function Profile({ onSignOut, onEdit, editModeError, isLoading }) {
+function Profile({ onSignOut, onEdit, editModeError, isLoading , editPass, setEditPass}) {
     const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
     const currentUser = useContext(CurrentUserContext);
@@ -11,19 +11,23 @@ function Profile({ onSignOut, onEdit, editModeError, isLoading }) {
 
     function handleEditOneClick() {
         setEditMode(true);
+        setEditPass(false);
     }
 
     function handleSubmit(event) {
         event.preventDefault();
         onEdit(values.name, values.email);
-        // currentUser.name = values.name;
-        // currentUser.email = values.email;
+        currentUser.name = values.name;
+        currentUser.email = values.email;
         setEditMode(false);
+        
     }
 
     useEffect(() => {
         if (currentUser) {
             resetForm(currentUser, {}, true);
+            // values.name = currentUser.name;
+            // values.email = currentUser.email;
         }
     }, [currentUser, resetForm, editMode]);
 
@@ -39,7 +43,7 @@ function Profile({ onSignOut, onEdit, editModeError, isLoading }) {
                             name="name"
                             type="text"
                             className='profile__input'
-                            value={values.name || ''}
+                            value={values.name || currentUser.name || ''}
                             onChange={handleChange}
                             minLength="2"
                             maxLength="30"
@@ -53,7 +57,7 @@ function Profile({ onSignOut, onEdit, editModeError, isLoading }) {
                             name="email"
                             type="email"
                             className='profile__input'
-                            value={values.email || ''}
+                            value={values.email || currentUser.email || ''}
                             onChange={handleChange}
                             required
                             disabled={!editMode || isLoading ? true : false}
@@ -61,6 +65,8 @@ function Profile({ onSignOut, onEdit, editModeError, isLoading }) {
                     </label>
 
                 </div>
+
+                {editPass && <div className='profile__pass'>Данные успешно обновлены.</div>}
 
                 <div className="profile__buttons">
                     {!editMode ?
@@ -85,7 +91,7 @@ function Profile({ onSignOut, onEdit, editModeError, isLoading }) {
                             <div className='profile__error'>{editModeError || ''}</div>
                             <button
                                 type="submit"
-                                className={`profile__button-save ${(!isValid || ( values.name === currentUser.name && values.email === currentUser.email)) && 'profile__button-save_disabled'}`}
+                                className={`profile__button-save ${(!isValid || (values.name === currentUser.name && values.email === currentUser.email)) && 'profile__button-save_disabled'}`}
                             >
                                 Сохранить
                             </button>

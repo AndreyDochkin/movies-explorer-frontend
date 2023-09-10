@@ -18,7 +18,7 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import ProtectedRoute from "../../utils/ProtectedRoute";
 import SavedMovies from "../SavedMovies/SavedMovies";
 
-import {BASE_URL, BASE_URL_API_MOVIES} from "../../utils/constants";
+import { BASE_URL, BASE_URL_API_MOVIES } from "../../utils/constants";
 
 const mainApi = new MainApi({
   // baseUrl: 'http://api.moviematchup.nomoreparties.sbs',
@@ -38,6 +38,7 @@ function App() {
   const [signupError, setSignupErrorError] = useState('');
   const [loginError, setLoginError] = useState('');
   const [editModeError, setEditModeError] = useState('');
+  const [editPass, setEditPass] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isBooted, setIsBooted] = useState(false); // надо дождаться проверки логина и уже потом грузить все остальные компоненты
@@ -76,39 +77,18 @@ function App() {
   }, []);
 
   // получение информации о пользователе при входе
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     setIsLoading(true);
-  //     mainApi
-  //       .getCurrentUser()
-  //       .then(res => {
-  //         setCurrentUser(res.data)
-  //       })
-  //       .catch(err => console.log(err))
-  //       .finally(() => { setIsLoading(false) });
-  //   }
-  // }, [isLoggedIn]);
-
-
-  // // получение списка фильмов от внешнего api
-  // useEffect(() => {
-
-  //   if (!isLoggedIn || moviesList.length) {
-  //     return;
-  //   }
-
-  //   setIsLoading(true);
-  //   moviesApi.getMovies()
-  //     .then((movies) => {
-  //       setMoviesList(movies);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     })
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //     });
-  // }, [isLoggedIn, navigate]);
+  useEffect(() => {
+    if (isLoggedIn) {
+      setIsLoading(true);
+      mainApi
+        .getCurrentUser()
+        .then(res => {
+          setCurrentUser(res.data)
+        })
+        .catch(err => console.log(err))
+        .finally(() => { setIsLoading(false) });
+    }
+  }, [isLoggedIn]);
 
   // получение списка сохраненных фильмов
   useEffect(() => {
@@ -178,8 +158,10 @@ function App() {
       .setCurrentUser(name, email)
       .then(res => {
         setCurrentUser({ ...res.data });
+        setEditPass(true)
       })
       .catch(err => {
+        setEditPass(false)
         setEditModeError(err);
         console.log(err);
       })
@@ -271,15 +253,15 @@ function App() {
 
             <Route path="/profile"
               element={
-                !isLoading ?
                   <ProtectedRoute
                     element={Profile}
                     isLoggedIn={isLoggedIn}
                     isLoading={isLoading}
                     onSignOut={handleSignOut}
                     onEdit={handleEditProfile}
-                    editModeError={editModeError}
-                  /> : <Preloader />
+                    editModeError={editModeError} 
+                    editPass={editPass}
+                    setEditPass={setEditPass}/>
               } />
 
             <Route path="/sign-up" element={
