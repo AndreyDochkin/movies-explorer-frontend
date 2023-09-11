@@ -43,7 +43,6 @@ function Movies({ isLoading, setIsLoading, baseUrl, savedList, onSaveClick, onDe
         setCurrentSearchText(searchText);
         setCheckShortMovies(check);
 
-
         if (mainList.length === 0) {
 
             setIsLoading(true);
@@ -53,10 +52,10 @@ function Movies({ isLoading, setIsLoading, baseUrl, savedList, onSaveClick, onDe
                     localStorage.setItem(`${currentUser.email}:mainList`, JSON.stringify(movies));
 
                     const filteredMovies = searchText ? filterBySearchText(movies, searchText) : movies;
-                    const searchResult = check ? filterByShortDuration(filteredMovies) : filteredMovies;
+                    // const searchResult = check ? filterByShortDuration(filteredMovies) : filteredMovies;
 
-                    setFindedMoviesList(searchResult);
-                    localStorage.setItem(`${currentUser.email}:movies`, JSON.stringify(searchResult));
+                    setFindedMoviesList(filteredMovies);
+                    localStorage.setItem(`${currentUser.email}:movies`, JSON.stringify(filteredMovies));
                 })
                 .catch((err) => {
                     console.log(err);
@@ -66,10 +65,10 @@ function Movies({ isLoading, setIsLoading, baseUrl, savedList, onSaveClick, onDe
                 });
         } else {
             const filteredMovies = searchText ? filterBySearchText(mainList, searchText) : mainList;
-            const searchResult = check ? filterByShortDuration(filteredMovies) : filteredMovies;
+            // const searchResult = check ? filterByShortDuration(filteredMovies) : filteredMovies;
 
-            setFindedMoviesList(searchResult);
-            localStorage.setItem(`${currentUser.email}:movies`, JSON.stringify(searchResult));
+            setFindedMoviesList(filteredMovies);
+            localStorage.setItem(`${currentUser.email}:movies`, JSON.stringify(filteredMovies));
         }
 
     }
@@ -78,15 +77,8 @@ function Movies({ isLoading, setIsLoading, baseUrl, savedList, onSaveClick, onDe
         setCheckShortMovies(!checkShortMovies);
     }
 
-
     useEffect(() => {
-        if (checkShortMovies) {
-            const short = filterByShortDuration(findedMoviesList);
-            setShortList(short);
-        }
-
         localStorage.setItem(`${currentUser.email}:checkShortMovies`, checkShortMovies);
-
     }, [checkShortMovies]);
 
     useEffect(() => {
@@ -117,7 +109,7 @@ function Movies({ isLoading, setIsLoading, baseUrl, savedList, onSaveClick, onDe
                 listFound={findedMoviesList}
             />
             {!isLoading ? <MoviesCardList
-                moviesList={checkShortMovies ? shortList : findedMoviesList}
+                moviesList={checkShortMovies ? filterByShortDuration(findedMoviesList) : findedMoviesList}
                 savedList={savedList}
                 baseUrl={baseUrl}
                 onSaveClick={onSaveClick}
