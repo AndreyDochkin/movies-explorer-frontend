@@ -1,9 +1,9 @@
 export const BASE_URL = 'https://api.moviematchup.nomoreparties.sbs';
 export const BASE_URL_API_MOVIES = 'https://api.nomoreparties.co';
 
-export const DESKTOP_WIDTH = 1200;
+export const DESKTOP_WIDTH = 1222;
 export const TABLET_WIDTH = 630;
-export const MOBILE_WIDTH = 480;
+export const MOBILE_WIDTH = 646;
 
 export const MOVIES_AMOUNT ={
     DESKTOP: 12,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import { DESKTOP_WIDTH, MOBILE_WIDTH, TABLET_WIDTH } from '../../utils/constants';
 import { MOVIES_AMOUNT, MOVIES_DELTA } from '../../utils/constants';
@@ -8,20 +8,18 @@ function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteC
     const [totalDisplay, setTotalDisplay] = useState(MOVIES_AMOUNT.DESKTOP); //total amount of displaed movies
     const [deltaDisplay, setDeltaDisplay] = useState(MOVIES_DELTA.DESKTOP); //grower for amount of dislaped movies
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
     const [isMoviesListLoaded, setIsMoviesListLoaded] = useState(false);
 
     const handleResize = () => {
         setTimeout(() => {
             setScreenWidth(window.innerWidth);
-        }, 500);
+        }, 100);
     };
 
     useEffect(() => {
         window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
+        return () => { window.removeEventListener('resize', handleResize); };
     }, [screenWidth]);
 
     function handleClickMoreMovies() {
@@ -31,13 +29,14 @@ function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteC
     useEffect(() => {
         let total;
         let delta;
-        if (screenWidth > DESKTOP_WIDTH) {
+
+        if (screenWidth >= DESKTOP_WIDTH) {
             total = MOVIES_AMOUNT.DESKTOP;
             delta = MOVIES_DELTA.DESKTOP;
-        } else if (screenWidth <= DESKTOP_WIDTH && screenWidth >= TABLET_WIDTH) {
+        } else if (screenWidth < DESKTOP_WIDTH && screenWidth > MOBILE_WIDTH) {
             total = MOVIES_AMOUNT.TABLET;
             delta = MOVIES_DELTA.TABLET;
-        } else if(screenWidth < TABLET_WIDTH) {
+        } else {
             total = MOVIES_AMOUNT.MOBILE;
             delta = MOVIES_DELTA.MOBILE;
         }
@@ -48,13 +47,12 @@ function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteC
         if (moviesList.length && !isSavedMoviesRoute) setMoviesDisplay(moviesList.slice(0, total))
         else setMoviesDisplay(moviesList);
 
-    }, [screenWidth])
-
+    }, [screenWidth,moviesList]);
 
     useEffect(() => {
         if (moviesList.length && !isSavedMoviesRoute) setMoviesDisplay(moviesList.slice(0, totalDisplay))
         else setMoviesDisplay(moviesList);
-    }, [totalDisplay,deltaDisplay, moviesList]);
+    }, [totalDisplay, moviesList]);
 
     useEffect(() => {
         setIsMoviesListLoaded(moviesList.length === 0 ? true : false);
@@ -63,6 +61,8 @@ function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteC
     function checkIsMovieSaved(list, item) {
         return !isSavedMoviesRoute ? list.some((movie) => movie.movieId === (item.movieId || item.id)) : false;
     }
+
+    console.log('moviesDisplay length', moviesDisplay.length);
 
     return (
         <section className="movies">
