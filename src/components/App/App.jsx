@@ -106,7 +106,7 @@ function App() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }, [isLoggedIn]);
 
   function handleUserSignUp(email, password, name) {
     setIsLoading(true);
