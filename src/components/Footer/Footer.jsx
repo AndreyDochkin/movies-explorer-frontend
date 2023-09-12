@@ -5,7 +5,7 @@ function Footer() {
     const currentYear = date.getFullYear();
     return (
         <footer className='footer'>
-            <h3 className='footer__title'>Educational project by Yandex.Practicum and MovieMatchUp.</h3>
+            <h3 className='footer__title'>Educational project MovieMatchUp.</h3>
             <div className='footer__line'></div>
             <div className='footer__container'>
                 <p className='footer__date'>© {currentYear}</p>

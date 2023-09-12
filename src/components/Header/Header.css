@@ -94,6 +94,10 @@
     margin-left: 40px;
 }
 
+.nav__link_white {
+    color: #fff;
+}
+
 .header__nav>.active {
     font-weight: 500;
 }
@@ -161,6 +165,7 @@
     box-sizing: border-box;
     margin-bottom: 28px;
 }
+
 
 .side-menu__link_active {
     padding-bottom: 4px;

@@ -49,8 +49,8 @@ function Header({ isLoggedIn }) {
                         {/* </>) :
                             (<> */}
                         <nav className="nav">
-                            <NavLink to="/movies" className="nav__link">Movies</NavLink>
-                            <NavLink to="/saved-movies" className="nav__link" >Saved Movies</NavLink>
+                            <NavLink to="/movies" className={`nav__link ${isMainPage ? 'nav__link_white' : ''}`}>Movies</NavLink>
+                            <NavLink to="/saved-movies" className={`nav__link ${isMainPage ? 'nav__link_white' : ''}`}>Saved Movies</NavLink>
                         </nav>
                         <NavLink to="/profile" className="header__button header__button_account">Account</NavLink>
 
