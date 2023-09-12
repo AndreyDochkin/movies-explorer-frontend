@@ -1,65 +1,94 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState, useRef } from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
-import movies from '../../utils/mockMoviesListArray';
-function MoviesCardList() {
-    const [moviesDisplay, setMoviesDisplay] = useState([]);
-    const [totalDisplay, setTotalDisplay] = useState(12); //total amount of displaed movies
-    const [deltaDisplay, setDeltaDisplay] = useState(12); //grower for amount of dislaped movies
+import { DESKTOP_WIDTH, MOBILE_WIDTH, TABLET_WIDTH } from '../../utils/constants';
+import { MOVIES_AMOUNT, MOVIES_DELTA } from '../../utils/constants';
 
+function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteClick, isSavedMoviesRoute, isFirstRender }) {
+    const [moviesDisplay, setMoviesDisplay] = useState([]);
+    const [totalDisplay, setTotalDisplay] = useState(MOVIES_AMOUNT.DESKTOP); //total amount of displaed movies
+    const [deltaDisplay, setDeltaDisplay] = useState(MOVIES_DELTA.DESKTOP); //grower for amount of dislaped movies
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
+    const [isMoviesListLoaded, setIsMoviesListLoaded] = useState(false);
+
     const handleResize = () => {
-        setScreenWidth(window.innerWidth);
+        setTimeout(() => {
+            setScreenWidth(window.innerWidth);
+        }, 100);
     };
 
     useEffect(() => {
         window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
-    useEffect(() => {
-        if (screenWidth > 1200) {
-            setTotalDisplay(12);
-            setDeltaDisplay(12);
-        } else if (screenWidth <= 1200 && screenWidth > 600) {
-            setTotalDisplay(8);
-            setDeltaDisplay(8);
-
-        } else {
-            setTotalDisplay(4);
-            setDeltaDisplay(4);
-        }
-    }, [screenWidth])
-
-
-    useEffect(() => {
-        if (movies.length) setMoviesDisplay(movies.slice(0, totalDisplay));
-    }, [totalDisplay]);
+        return () => { window.removeEventListener('resize', handleResize); };
+    }, [screenWidth]);
 
     function handleClickMoreMovies() {
-        console.log('click');
         setTotalDisplay(totalDisplay + deltaDisplay);
+    }
+
+    useEffect(() => {
+        let total;
+        let delta;
+
+        if (screenWidth >= DESKTOP_WIDTH) {
+            total = MOVIES_AMOUNT.DESKTOP;
+            delta = MOVIES_DELTA.DESKTOP;
+        } else if (screenWidth < DESKTOP_WIDTH && screenWidth > MOBILE_WIDTH) {
+            total = MOVIES_AMOUNT.TABLET;
+            delta = MOVIES_DELTA.TABLET;
+        } else {
+            total = MOVIES_AMOUNT.MOBILE;
+            delta = MOVIES_DELTA.MOBILE;
+        }
+
+        setTotalDisplay(total);
+        setDeltaDisplay(delta);
+
+        if (moviesList.length && !isSavedMoviesRoute) setMoviesDisplay(moviesList.slice(0, total))
+        else setMoviesDisplay(moviesList);
+
+    }, [screenWidth,moviesList]);
+
+    useEffect(() => {
+        if (moviesList.length && !isSavedMoviesRoute) setMoviesDisplay(moviesList.slice(0, totalDisplay))
+        else setMoviesDisplay(moviesList);
+    }, [totalDisplay, moviesList]);
+
+    useEffect(() => {
+        setIsMoviesListLoaded(moviesList.length === 0 ? true : false);
+    }, [moviesList, isMoviesListLoaded]);
+
+    function checkIsMovieSaved(list, item) {
+        return !isSavedMoviesRoute ? list.some((movie) => movie.movieId === (item.movieId || item.id)) : false;
     }
 
     return (
         <section className="movies">
-            <ul className="movies__list">
-                {moviesDisplay.map((movie) => (
-                    <MoviesCard
-                        movie={movie}
-                        key={movie._id} />
-                ))}
+            <ul className="movies__list"> {
+                isMoviesListLoaded ?
+                    <div className='movies__not-found'> {isFirstRender ? '' : 'Ничего не найдено'}</div>
+                    :
+                    moviesDisplay.map((movie) => (
+                        <MoviesCard
+                            baseUrl={baseUrl}
+                            movie={movie}
+                            isMovieSaved={checkIsMovieSaved(savedList, movie)}
+                            key={movie.id || movie.movieId}
+                            onSaveClick={onSaveClick}
+                            onDeleteClick={onDeleteClick}
+                            isSavedMoviesRoute={isSavedMoviesRoute} />
+                    ))
+            }
             </ul>
 
-            <button type="button"
-                className="movies__button-more"
-                onClick={handleClickMoreMovies}
-            >
-                Ещё
-            </button>
+            {(!isSavedMoviesRoute && moviesList.length) > totalDisplay && (
+                <button type="button"
+                    className="movies__button-more"
+                    onClick={handleClickMoreMovies}
+                >
+                    Ещё
+                </button>
+            )}
 
         </section>
 

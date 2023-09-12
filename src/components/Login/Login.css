@@ -65,7 +65,12 @@
     border-bottom: 1px solid #3456F3;
 }
 
-.login__input-error {
+.register__input_error{
+    color: #FF3055;
+}
+
+.login__error {
+    height: 16px;
     color: #FF3055;
     font-size: 10px;
     font-style: normal;
