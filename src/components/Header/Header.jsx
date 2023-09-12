@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, NavLink, Route, Routes, Navigate, useLocation } from "react-router-dom";
 import logoPath from '../../images/logo.svg';
 import burgerPath from '../../images/burger_menu_icon.svg';
+import burgerWhitePath from '../../images/burger_menu_white_icon.svg';
 import closePath from '../../images/close_icon.svg';
 
 function Header({ isLoggedIn }) {
@@ -35,15 +36,15 @@ function Header({ isLoggedIn }) {
                     <>
                         {/* {isBurger ?
                             (<> */}
-                        <img src={burgerPath} className='header__burger' alt="burger menu" onClick={handleOpenCloseBurgerMenu} />
+                        <img src={isMainPage ? burgerWhitePath : burgerPath} className='header__burger' alt="burger menu" onClick={handleOpenCloseBurgerMenu} />
 
                         <div className={`side-menu ${burgerIsOpen ? 'side-menu_open ' : ''}`}>
                             <div className="side-menu__container">
                                 <img src={closePath} className='side-menu__close' alt="burger close" onClick={handleOpenCloseBurgerMenu} />
-                                <NavLink to="/" className="side-menu__link" >Home</NavLink>
-                                <NavLink to="/movies" className="side-menu__link">Movies</NavLink>
-                                <NavLink to="/saved-movies" className="side-menu__link">Saved Movies</NavLink>
-                                <NavLink to="/profile" className="side-menu__account header__button header__button_account" >Account</NavLink>
+                                <NavLink to="/" className="side-menu__link" onClick={handleOpenCloseBurgerMenu}>Home</NavLink>
+                                <NavLink to="/movies" className="side-menu__link" onClick={handleOpenCloseBurgerMenu}>Movies</NavLink>
+                                <NavLink to="/saved-movies" className="side-menu__link" onClick={handleOpenCloseBurgerMenu}>Saved Movies</NavLink>
+                                <NavLink to="/profile" className="side-menu__account header__button header__button_account" onClick={handleOpenCloseBurgerMenu}>Account</NavLink>
                             </div>
                         </div>
                         {/* </>) :
