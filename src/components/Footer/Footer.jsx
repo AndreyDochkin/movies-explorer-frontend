@@ -5,12 +5,12 @@ function Footer() {
     const currentYear = date.getFullYear();
     return (
         <footer className='footer'>
-            <h3 className='footer__title'>Учебный проект Яндекс.Практикум х MovieMatchUp.</h3>
+            <h3 className='footer__title'>Educational project by Yandex.Practicum and MovieMatchUp.</h3>
             <div className='footer__line'></div>
             <div className='footer__container'>
                 <p className='footer__date'>© {currentYear}</p>
                 <nav className="footer__nav">
-                    <a className='footer__link' href='https://practicum.yandex.ru/' target="_blank" rel="noopener noreferrer">Яндекс.Практикум</a>
+                    <a className='footer__link' href='https://practicum.yandex.ru/' target="_blank" rel="noopener noreferrer">Yandex.Practicum</a>
                     <a className='footer__link' href='https://github.com/AndreyDochkin' target="_blank" rel="noopener noreferrer">GitHub</a>
                 </nav>
             </div>

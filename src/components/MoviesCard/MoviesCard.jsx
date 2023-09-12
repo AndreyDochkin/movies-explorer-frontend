@@ -20,7 +20,7 @@ function MoviesCard({ isSavedMoviesRoute, isMovieSaved, movie,onDeleteClick,onSa
 
             <div className="movie-item__header">
                 <div className="movie-item__text">
-                    <h2 className="movie-item__title">{movie.nameRU}</h2>
+                    <h2 className="movie-item__title">{movie.nameEN}</h2>
                     <p className="movie-item__duration">{convertDurationToHoursMinutes(movie.duration)}</p>
                 </div>
 

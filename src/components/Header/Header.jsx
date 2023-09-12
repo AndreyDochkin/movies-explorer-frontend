@@ -4,7 +4,6 @@ import { Link, NavLink, Route, Routes, Navigate, useLocation } from "react-route
 import logoPath from '../../images/logo.svg';
 import burgerPath from '../../images/burger_menu_icon.svg';
 import closePath from '../../images/close_icon.svg';
-import Navigation from "../Navigation/Navigation";
 
 function Header({ isLoggedIn }) {
     const isMainPage = useLocation().pathname === '/';
@@ -17,7 +16,7 @@ function Header({ isLoggedIn }) {
     }
 
     return (
-        <header className={`header ${isMainPage ? 'header_lending' : 'header_primary'}`} >
+        <header className={`header ${isMainPage ? 'header_landing' : 'header_primary'}`} >
             <Link to='/' className='header__logo'>
                 <img src={logoPath} alt="logo" />
             </Link>
@@ -26,10 +25,10 @@ function Header({ isLoggedIn }) {
                 {!isLoggedIn ? (
                     <>
                         <Link to="sign-up" className="header__button header__button_signup">
-                            Регистрация
+                            Sign Up
                         </Link>
                         <Link to="sign-in" className="header__button header__button_signin">
-                            Войти
+                            Sign In
                         </Link>
                     </>
                 ) : (
@@ -41,19 +40,19 @@ function Header({ isLoggedIn }) {
                         <div className={`side-menu ${burgerIsOpen ? 'side-menu_open ' : ''}`}>
                             <div className="side-menu__container">
                                 <img src={closePath} className='side-menu__close' alt="burger close" onClick={handleOpenCloseBurgerMenu} />
-                                <NavLink to="/" className="side-menu__link" >Главная</NavLink>
-                                <NavLink to="/movies" className="side-menu__link">Фильмы</NavLink>
-                                <NavLink to="/saved-movies" className="side-menu__link">Сохранённые фильмы</NavLink>
-                                <NavLink to="/profile" className="side-menu__account header__button header__button_account" >Аккаунт</NavLink>
+                                <NavLink to="/" className="side-menu__link" >Home</NavLink>
+                                <NavLink to="/movies" className="side-menu__link">Movies</NavLink>
+                                <NavLink to="/saved-movies" className="side-menu__link">Saved Movies</NavLink>
+                                <NavLink to="/profile" className="side-menu__account header__button header__button_account" >Account</NavLink>
                             </div>
                         </div>
                         {/* </>) :
                             (<> */}
                         <nav className="nav">
-                            <NavLink to="/movies" className="nav__link">Фильмы</NavLink>
-                            <NavLink to="/saved-movies" className="nav__link" >Сохранённые фильмы</NavLink>
+                            <NavLink to="/movies" className="nav__link">Movies</NavLink>
+                            <NavLink to="/saved-movies" className="nav__link" >Saved Movies</NavLink>
                         </nav>
-                        <NavLink to="/profile" className="header__button header__button_account">Аккаунт</NavLink>
+                        <NavLink to="/profile" className="header__button header__button_account">Account</NavLink>
 
                         {/* </>)} */}
 
@@ -65,4 +64,3 @@ function Header({ isLoggedIn }) {
 }
 
 export default Header;
-

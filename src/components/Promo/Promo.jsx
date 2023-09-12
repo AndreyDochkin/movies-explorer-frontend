@@ -4,7 +4,7 @@ import promoPath from '../../images/promo.svg';
 function Promo() {
     return (
         <section className="promo">
-            <h1 className='promo__tilte'>Учебный проект студента факультета Веб-разработки.</h1>
+            <h1 className='promo__tilte'>Educational project of a Web Development student.</h1>
             <img src={promoPath} className='promo__img' alt="promo" />
         </section>
     );

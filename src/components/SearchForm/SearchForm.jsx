@@ -18,7 +18,7 @@ function SearchForm({ searchText, handleSearch, handleCheckShortMovies, checkSho
             <form onSubmit={handleSubmit} className="search__form" noValidate>
                 <input className="search__input"
                     type="text"
-                    placeholder="Фильм"
+                    placeholder="Movie"
                     value={values.search || ''}
                     onChange={handleChange}
                     name="search"
@@ -33,7 +33,7 @@ function SearchForm({ searchText, handleSearch, handleCheckShortMovies, checkSho
                         checked={checkShortMovies} />
                     <span className="slider__element"></span>
                 </label>
-                <p className="slider__text">Короткометражки</p>
+                <p className="slider__text">Short Films</p>
             </div>
 
             <div className="search__line" />

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
-function Profile({ onSignOut, onEdit, editModeError, isLoading , editPass, setEditPass}) {
+function Profile({ onSignOut, onEdit, editModeError, isLoading, editPass, setEditPass }) {
     const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
     const currentUser = useContext(CurrentUserContext);
@@ -20,25 +20,23 @@ function Profile({ onSignOut, onEdit, editModeError, isLoading , editPass, setEd
         currentUser.name = values.name;
         currentUser.email = values.email;
         setEditMode(false);
-        
+
     }
 
     useEffect(() => {
         if (currentUser) {
             resetForm(currentUser, {}, true);
-            // values.name = currentUser.name;
-            // values.email = currentUser.email;
         }
     }, [currentUser, resetForm, editMode]);
 
     return (
         <main className='profile'>
 
-            <h1 className="profile__title">{`Привет, ${currentUser.name || ''}!`}</h1>
+            <h1 className="profile__title">{`Hello, ${currentUser.name || ''}!`}</h1>
             <form onSubmit={handleSubmit} className="profile__form" name="profile" noValidate>
                 <div className="profile__input-container">
                     <label className="profile__label">
-                        <span className="profile__label-text">Имя</span>
+                        <span className="profile__label-text">Name</span>
                         <input
                             name="name"
                             type="text"
@@ -66,7 +64,7 @@ function Profile({ onSignOut, onEdit, editModeError, isLoading , editPass, setEd
 
                 </div>
 
-                {editPass && <div className='profile__pass'>Данные успешно обновлены.</div>}
+                {editPass && <div className='profile__pass'>Data updated successfully.</div>}
 
                 <div className="profile__buttons">
                     {!editMode ?
@@ -76,13 +74,13 @@ function Profile({ onSignOut, onEdit, editModeError, isLoading , editPass, setEd
                                 className='profile__button-edit'
                                 onClick={handleEditOneClick}
                             >
-                                Редактировать
+                                Edit
                             </button>
                             <button
                                 type="submit"
                                 className="profile__button-exit"
                                 onClick={onSignOut}>
-                                Выйти из аккаунта
+                                Sign Out
                             </button>
 
                         </>
@@ -93,7 +91,7 @@ function Profile({ onSignOut, onEdit, editModeError, isLoading , editPass, setEd
                                 type="submit"
                                 className={`profile__button-save ${(!isValid || (values.name === currentUser.name && values.email === currentUser.email)) && 'profile__button-save_disabled'}`}
                             >
-                                Сохранить
+                                Save
                             </button>
                         </>
                     }

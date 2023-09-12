@@ -5,8 +5,8 @@ import { MOVIES_AMOUNT, MOVIES_DELTA } from '../../utils/constants';
 
 function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteClick, isSavedMoviesRoute, isFirstRender }) {
     const [moviesDisplay, setMoviesDisplay] = useState([]);
-    const [totalDisplay, setTotalDisplay] = useState(MOVIES_AMOUNT.DESKTOP); //total amount of displaed movies
-    const [deltaDisplay, setDeltaDisplay] = useState(MOVIES_DELTA.DESKTOP); //grower for amount of dislaped movies
+    const [totalDisplay, setTotalDisplay] = useState(MOVIES_AMOUNT.DESKTOP); //total amount of displayed movies
+    const [deltaDisplay, setDeltaDisplay] = useState(MOVIES_DELTA.DESKTOP); //growth for the amount of displayed movies
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
     const [isMoviesListLoaded, setIsMoviesListLoaded] = useState(false);
@@ -47,7 +47,7 @@ function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteC
         if (moviesList.length && !isSavedMoviesRoute) setMoviesDisplay(moviesList.slice(0, total))
         else setMoviesDisplay(moviesList);
 
-    }, [screenWidth,moviesList]);
+    }, [screenWidth, moviesList]);
 
     useEffect(() => {
         if (moviesList.length && !isSavedMoviesRoute) setMoviesDisplay(moviesList.slice(0, totalDisplay))
@@ -66,7 +66,7 @@ function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteC
         <section className="movies">
             <ul className="movies__list"> {
                 isMoviesListLoaded ?
-                    <div className='movies__not-found'> {isFirstRender ? '' : 'Ничего не найдено'}</div>
+                    <div className='movies__not-found'> {isFirstRender ? '' : 'Nothing found'}</div>
                     :
                     moviesDisplay.map((movie) => (
                         <MoviesCard
@@ -86,7 +86,7 @@ function MoviesCardList({ moviesList, savedList, baseUrl, onSaveClick, onDeleteC
                     className="movies__button-more"
                     onClick={handleClickMoreMovies}
                 >
-                    Ещё
+                    More
                 </button>
             )}
 

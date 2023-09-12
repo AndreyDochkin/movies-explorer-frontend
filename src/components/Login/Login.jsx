@@ -20,7 +20,7 @@ function Login({ loginUser, loginError }) {
                 <img src={logoPath} alt="logo" />
             </Link>
 
-            <h2 className="login__title">Рады видеть!</h2>
+            <h2 className="login__title">Welcome!</h2>
             <form onSubmit={handleSubmit} className="login__form">
 
                 <label className="login__label">E-mail</label>
@@ -31,12 +31,12 @@ function Login({ loginUser, loginError }) {
                     value={values.email || ''}
                     className={`login__input ${errors.email && 'login__input_error'}`}
                     onChange={handleChange}
-                    placeholder='Введите e-mail'
+                    placeholder='Enter your e-mail'
                     required
                 />
                 <span className="login__error">{errors.email || ''}</span>
 
-                <label className="login__label">Пароль</label>
+                <label className="login__label">Password</label>
                 <input
                     id="password"
                     name="password"
@@ -44,7 +44,7 @@ function Login({ loginUser, loginError }) {
                     value={values.password || ''}
                     className={`login__input ${errors.password && 'login__input_error'}`}
                     onChange={handleChange}
-                    placeholder='Введите пароль'
+                    placeholder='Enter your password'
                     // pattern="^.{6,}$"
                     required
                 />
@@ -56,18 +56,17 @@ function Login({ loginUser, loginError }) {
                     className={`login__button ${!isValid && 'login__button_disabled'}`}
                     disabled={!isValid}
                 >
-                    Войти
+                    Log In
                 </button>
 
                 <div className="login__line" >
-                    <span className='login__text'>Ещё не зарегистрированы?</span>
-                    <Link to="/sign-up" className="login__link">Регистрация</Link>
+                    <span className='login__text'>Not registered yet?</span>
+                    <Link to="/sign-up" className="login__link">Register</Link>
                 </div>
-
 
             </form>
         </main>
     )
 }
 
-export default Login
+export default Login;
