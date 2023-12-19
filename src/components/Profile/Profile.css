@@ -17,6 +17,7 @@
     margin: 0;
     margin-bottom: 120px;
     margin: 75px auto;
+    color: var(--color-third);
 }
 
 .profile__form {
@@ -60,6 +61,7 @@
     font-weight: 500;
     line-height: normal;
     text-wrap: nowrap;
+    color:var(--color-third);
 }
 
 .profile__input {
@@ -70,9 +72,12 @@
 
     padding: 0;
     width: inherit;
-    direction: rtl;
+    /* direction: rtl; */
+    text-align: right;
     border: none;
     outline: none;
+    color:var(--color-third);
+    background-color: var(--color-primary);
 }
 
 .profile__input:focus {
@@ -81,7 +86,7 @@
 }
 
 .profile__error {
-    color: #FF004C;
+    color: var(--color-error);
     text-align: center;
     font-family: Inter;
     font-size: 11px;
@@ -92,7 +97,7 @@
 }
 
 .profile__pass{
-    color: #2BE080;
+    color: var(--color-info);
     text-align: center;
     font-family: Inter;
     font-size: 16px;
@@ -127,11 +132,12 @@
     cursor: pointer;
 
     margin-bottom: 16px;
+    color: var(--color-third);
 }
 
 .profile__button-exit {
     padding: 0;
-    color: #FF004D;
+    color: var(--color-action);
     text-align: center;
     font-size: 13px;
     font-style: normal;
@@ -146,7 +152,7 @@
 
 .profile__button-save {
     padding: 0;
-    color: #FFF;
+    color: var(--color-third);
     text-align: center;
     font-size: 14px;
     font-style: normal;
@@ -159,7 +165,7 @@
     border-radius: 3px;
     border: none;
 
-    background: #3456F3;
+    background: var(--color-action);
     transition: opacity .3s ease;
 }
 
@@ -168,8 +174,8 @@
 }
 
 .profile__button-save_disabled {
-    color: #C2C2C2;
-    background: #F8F8F8;
+    color: var(--color-third);
+    background: var(--color-secondary);
 }
 
 @media (max-width: 768px) {
