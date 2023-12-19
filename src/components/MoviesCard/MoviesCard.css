@@ -2,8 +2,9 @@
     width: inherit;
     /* width: 364px; */
     height: 271px;
-    background: #FDFDFD;
+    background: var(--color-input);
     box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
 
     display: flex;
     flex-direction: column;
@@ -60,6 +61,7 @@
     text-overflow: ellipsis;
 
     margin: 0 0 9px 0;
+    color:var(--color-third);
 }
 
 .movie-item__duration {
@@ -75,6 +77,7 @@
     width: 100%;
     height: 203px;
     object-fit: cover;
+    border-radius: 0px 0px 10px 10px;
 }
 
 

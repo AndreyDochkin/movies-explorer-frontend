@@ -9,7 +9,7 @@
 }
 
 .footer__title {
-    color: #A0A0A0;
+    color: var(--color-third);
     text-align: center;
 
     font-size: 13px;
@@ -21,7 +21,7 @@
 }
 
 .footer__line {
-    background: #E8E8E8;
+    background: var(--color-secondary);
     width: 100%;
     height: 1px;
     margin-bottom: 20px;
@@ -34,6 +34,7 @@
 }
 
 .footer__date {
+    color: var(--color-third);
     margin: 0;
     font-size: 13px;
     font-style: normal;
@@ -47,7 +48,7 @@
 }
 
 .footer__link {
-    color: black;
+    color: var(--color-third);
     font-size: 13px;
     font-style: normal;
     font-weight: 400;
@@ -101,7 +102,7 @@
     }
 
     .footer__date {
-        color: #A0A0A0;
+        color: var(--color-third);
         font-size: 12px;
         margin-top: 18px;
     }

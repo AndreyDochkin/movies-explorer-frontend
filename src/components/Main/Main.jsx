@@ -6,10 +6,11 @@ import Portfolio from "../Portfolio/Portfolio";
 function Main() {
     return (
         <main>
-            <Promo />
-            <AboutProject />
-            <Techs />
             <Portfolio />
+            {/* <Promo /> */}
+            <AboutProject />
+            {/* <Techs /> */}
+          
         </main>
     )
 }

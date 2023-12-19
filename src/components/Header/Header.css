@@ -3,7 +3,7 @@
     display: flex;
     justify-content: space-between;
     box-sizing: border-box;
-    background-color: var(--color-lending);
+    background-color: var(--color-primary);
     padding: 18px 70px;
 }
 
@@ -51,11 +51,11 @@
 }
 
 .header__button_signup {
-    color: #fff;
+    color: var(--color-third);
 }
 
 .header__button_signin {
-    color: #000;
+    color: var(--color-third);
     border: none;
     width: 76px;
     height: 32px;
@@ -64,20 +64,17 @@
 }
 
 .header__button_account {
-    color: #000;
+    color: var(--color-primary);
     width: 100px;
     height: 32px;
     border-radius: 20px;
-    background: var(--color-secondary);
+    background: var(--color-info);
     margin-left: 0px;
 }
-
 
 .header__button:hover {
     opacity: .6;
 }
-
-
 
 .nav {
     margin: 0 auto 0;
@@ -89,13 +86,13 @@
     font-weight: 400;
     line-height: 18px;
 
-    color: #000000;
+    color: var(--color-third);
     text-decoration: none;
     margin-left: 40px;
 }
 
 .nav__link_white {
-    color: #fff;
+    color: var(--color-third);
 }
 
 .header__nav>.active {
@@ -141,7 +138,7 @@
     max-width: 520px;
     width: 100%;
 
-    background-color: #fff;
+    background-color:var(--color-secondary);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -156,7 +153,7 @@
 }
 
 .side-menu__link {
-    color: #000;
+    color: var(--color-third);
     text-align: center;
     font-size: 18px;
     font-style: normal;
@@ -171,17 +168,17 @@
 
 .side-menu__link_active {
     padding-bottom: 4px;
-    border-bottom: 2px solid #AAA;
+    border-bottom: 2px solid var(--color-secondary);
 }
 
 .active {
     padding-bottom: 4px;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--color-third);
 }
 
 .side-menu__container>.active {
     padding-bottom: 4px;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--color-third);
 }
 
 .side-menu__account {
@@ -195,7 +192,7 @@
     }
 
     .header__button {
-        margin-left: 30px;
+        margin-left: 0px;
     }
 
     .nav {

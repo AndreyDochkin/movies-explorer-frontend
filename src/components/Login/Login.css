@@ -20,6 +20,7 @@
 }
 
 .login__title {
+    color: var(--color-third);
     font-size: 24px;
     font-style: normal;
     font-weight: 500;
@@ -38,7 +39,7 @@
 }
 
 .login__label {
-    color: #A0A0A0;
+    color: var(--color-info);
     font-size: 10px;
     font-style: normal;
     font-weight: 400;
@@ -57,21 +58,24 @@
     border: none;
     outline: none;
 
-    border-bottom: 1px solid #E8E8E8;
+    border-bottom: 1px solid var(--color-third);
     margin-bottom: 6px;
+    background-color: var(--color-input);
+    color: var(--color-third);
 }
 
 .login__input:focus {
-    border-bottom: 1px solid #3456F3;
+    border-bottom: 1px solid var(--color-info);
+    background-color: var(--color-secondary);
 }
 
 .register__input_error{
-    color: #FF3055;
+    color:var(--color-error);
 }
 
 .login__error {
     height: 16px;
-    color: #FF3055;
+    color:var(--color-error);
     font-size: 10px;
     font-style: normal;
     font-weight: 400;
@@ -81,7 +85,7 @@
 }
 
 .login__button {
-    color: #FFF;
+    color: var(--color-third);
     text-align: center;
     font-size: 14px;
     font-style: normal;
@@ -94,7 +98,7 @@
     border-radius: 3px;
     border: none;
 
-    background: #3456F3;
+    background: var(--color-action);
     transition: opacity .3s ease;
 
     padding: 0;
@@ -106,10 +110,9 @@
     opacity: 0.6;
 }
 
-
 .login__button_disabled {
-    color: #C2C2C2;
-    background: #F8F8F8;
+    color: var(--color-third);
+    background: var(--color-secondary);
 }
 
 .login__line {
@@ -122,7 +125,7 @@
 }
 
 .login__link {
-    color: #3456F3;
+    color: var(--color-action);
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -136,7 +139,7 @@
 }
 
 .login__text {
-    color: #A0A0A0;
+    color: var(--color-third);
     font-size: 14px;
     font-style: normal;
     font-weight: 400;

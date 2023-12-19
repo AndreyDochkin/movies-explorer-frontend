@@ -35,11 +35,11 @@
     height: 46px;
 
     border-radius: 40px;
-    background: #F9F9F9;
-    border: 1px solid #F9F9F9;
+    background: var(--color-input);
+    border: 1px solid var(--color-secondary);
     box-sizing: border-box;
 
-    color: #000;
+    color: var(--color-third);
     font-size: 13px;
     font-style: normal;
     font-weight: 400;
@@ -49,7 +49,7 @@
 
 .search__input:focus {
     outline: none;
-    border: 1px solid #cfcfcf;
+    border: 1px solid var(--color-info);
 }
 
 .search__input::placeholder {
@@ -86,7 +86,7 @@
 }
 
 .slider__text {
-    color: #000;
+    color: var(--color-third);
     font-family: Inter;
     font-size: 14px;
     font-style: normal;
@@ -121,7 +121,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #EBEBEB;
+    background-color: var(--color-secondary);
     border-radius: 16px;
     cursor: pointer;
     transition: .4s;
@@ -134,15 +134,15 @@
     height: 16px;
     left: 2px;
     bottom: 2px;
-    background-color: #F5F5F5;
+    background-color: var(--color-third);
     box-sizing: border-box;
-    outline: #fff solid 1px;
+    /* outline: #fff solid 1px; */
     border-radius: 50%;
     transition: .5s;
 }
 
 input:checked+.slider__element:before {
-    background-color: #2BE080;
+    background-color: var(--color-info);
     transform: translateX(16px);
 }
 

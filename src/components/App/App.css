@@ -1,13 +1,24 @@
 :root {
   font-family: "Inter", Arial, sans-serif;
 
-  --color-lending: #073042;
-  --color-primary: #fff;
-  --color-secondary: #F2F2F2;
-  --color-info: #2BE080;
-  --color-action: #3456F3;
+   /* --color-lending: #073042; */
+  --color-primary: #272C2E;
+  --color-secondary: #6A6A6A;
+  --color-third: #fff;
+  --color-info: #A7E61F;
+  --color-action: #00FFFF;
+  --color-input: #3E3E3E;
+  --color-error: #FF4949;
 
   box-sizing: border-box;
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--color-secondary) inset !important;
+    -webkit-text-fill-color: var(--color-third) !important;
+  }
 }
 
 .app {
@@ -18,7 +29,7 @@
   min-width: 300px;
   width: 100%;
   margin: 0 auto;
-  
+
   display: flex;
   align-items: center;
   /* justify-content: center; */

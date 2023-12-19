@@ -11,9 +11,9 @@ function Portfolio() {
             <div className='portfolio__article-container'>
                 <article className='portfolio__article'>
                     <h3 className='portfolio__article-title'>Andrei Dochkin</h3>
-                    <p className='portfolio__article-subtitle'>Front-end Developer, 35 years old</p>
+                    {/* <p className='portfolio__article-subtitle'>Front-end Developer</p> */}
                     <p className='portfolio__article-text'>
-                        I was born in Saint Petersburg and graduated from the Electrotechnical University "LETI". My career path started with embedded systems development in C/C++. Recently, I completed a web development course from Practicum by Yandex, where I deepened my knowledge and skills in web development. This expanded my expertise in creating web applications.
+                        I was born in Saint Petersburg and graduated from the Electrotechnical University as Engineer. My career path started with embedded systems development in C/C++. Recently, I completed a web development course from Practicum by Yandex, where I deepened my knowledge and skills in web development. This expanded my expertise in creating web applications.
                     </p>
                     <a className='portfolio__article-link' href='https://github.com/AndreyDochkin' target="_blank" rel="noopener noreferrer">GitHub</a>
                 </article>

@@ -27,11 +27,11 @@ export function useFormWithValidation() {
     const value = target.value;
 
     if (name === "password") {
-      target.setCustomValidity(`${target.validity.patternMismatch ? 'Пароль должен содержать не меньше 6 символов.' : ''}`);
+      target.setCustomValidity(`${target.validity.patternMismatch ? 'The password must be at least 6 characters long.' : ''}`);
     }
 
     if (name === "email") {
-      target.setCustomValidity(`${!isEmail(value) ? 'Почта введена неверно.' : ''}`);
+      target.setCustomValidity(`${!isEmail(value) ? 'The email is entered incorrectly.' : ''}`);
     }
 
     setValues({ ...values, [name]: value });

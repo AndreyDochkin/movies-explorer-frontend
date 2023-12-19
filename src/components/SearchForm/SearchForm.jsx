@@ -6,6 +6,7 @@ function SearchForm({ searchText, handleSearch, handleCheckShortMovies, checkSho
 
     useEffect(() => {
         values.search = searchText;
+        handleSearch(values.search, checkShortMovies);
     }, []);
 
     function handleSubmit(e) {

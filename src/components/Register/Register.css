@@ -19,6 +19,7 @@
 }
 
 .register__title {
+    color: var(--color-third);
     font-size: 24px;
     font-style: normal;
     font-weight: 500;
@@ -37,7 +38,7 @@
 }
 
 .register__label {
-    color: #A0A0A0;
+    color: var(--color-info);
     font-size: 10px;
     font-style: normal;
     font-weight: 400;
@@ -56,21 +57,24 @@
     border: none;
     outline: none;
 
-    border-bottom: 1px solid #E8E8E8;
+    border-bottom: 1px solidvar(--color-third);
     margin-bottom: 6px;
+    background-color: var(--color-input);
+    color: var(--color-third);
 }
 
 .register__input:focus {
-    border-bottom: 1px solid #3456F3;
+    border-bottom: 1px solid var(--color-info);
+    background-color: var(--color-secondary);
 }
 
 .register__input_error{
-    color: #FF3055;
+    color: var(--color-error);
 }
 
 .register__error{
     height: 20px;
-    color: #FF3055;
+    color: var(--color-error);
     font-size: 10px;
     font-style: normal;
     font-weight: 400;
@@ -80,7 +84,7 @@
 }
 
 .register__button {
-    color: #FFF;
+    color: var(--color-third);
     text-align: center;
     font-size: 14px;
     font-style: normal;
@@ -93,7 +97,7 @@
     border-radius: 3px;
     border: none;
 
-    background: #3456F3;
+    background: var(--color-action);
     transition: opacity .3s ease;
 
     padding: 0;
@@ -107,8 +111,8 @@
 
 
 .register__button_disabled {
-    color: #C2C2C2;
-    background: #F8F8F8;
+    color: var(--color-third);
+    background: var(--color-secondary);
 }
 
 .register__line {
@@ -121,7 +125,7 @@
 }
 
 .register__link {
-    color: #3456F3;
+    color: var(--color-action);
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -135,7 +139,7 @@
 }
 
 .register__text {
-    color: #A0A0A0;
+    color: var(--color-third);
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
