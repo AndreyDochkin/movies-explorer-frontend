@@ -1,4 +1,5 @@
 # MovieMatchup - Discover and Save Your Favorite Movies
+![image](https://github.com/AndreyDochkin/movies-explorer-frontend/assets/37371996/1b167fac-4de1-4308-9259-766510ebdd3e)
 
 MovieMatchup is a web application built with Node.js, React, and Express that allows users to search for and save their favorite movies. With an intuitive interface, users can easily explore movies, access detailed information, and manage their saved collection.
 
