@@ -72,6 +72,12 @@
     border-radius: 10px;
 }
 
+/* .portfolio__spline {
+    max-width: 270px;
+    width: 100%;
+    height: 327px;
+} */
+
 .portfolio__article-text {
     color: var(--color-third);
     font-size: 14px;

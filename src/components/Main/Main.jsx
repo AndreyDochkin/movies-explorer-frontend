@@ -8,7 +8,7 @@ function Main() {
         <main>
             <Portfolio />
             {/* <Promo /> */}
-            <AboutProject />
+            {/* <AboutProject /> */}
             {/* <Techs /> */}
           
         </main>

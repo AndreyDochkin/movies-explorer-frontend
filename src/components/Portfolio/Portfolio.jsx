@@ -16,8 +16,13 @@ function Portfolio() {
                         I was born in Saint Petersburg and graduated from the Electrotechnical University as Engineer. My career path started with embedded systems development in C/C++. Recently, I completed a web development course from Practicum by Yandex, where I deepened my knowledge and skills in web development. This expanded my expertise in creating web applications.
                     </p>
                     <a className='portfolio__article-link' href='https://github.com/AndreyDochkin' target="_blank" rel="noopener noreferrer">GitHub</a>
+                    
                 </article>
-                <img className='portfolio__article-img' src={photoPath} alt='Portfolio author' />
+                {/* <img className='portfolio__article-img' src={photoPath} alt='Portfolio author' /> */}
+                <div className='portfolio__article-img'>
+                    <spline-viewer url="https://prod.spline.design/VkEnP-TP55NSEzWh/scene.splinecode"></spline-viewer>
+                </div>
+                
             </div>
 
             <h3 className='portfolio__list-title'>Portfolio</h3>
@@ -31,16 +36,10 @@ function Portfolio() {
                 <li className='portfolio__list-line'></li>
 
                 <li className='portfolio__list-item'>
-                    <a className='portfolio__list-link' href='https://github.com/AndreyDochkin/russian-travel' target="_blank" rel="noopener noreferrer">Adaptive website</a>
-                    <img className='portfolio__list-img' src={arrowPath} alt="Arrow icon" />
-                </li>
-
-                <li className='portfolio__list-line'></li>
-
-                <li className='portfolio__list-item'>
                     <a className='portfolio__list-link' href='https://github.com/AndreyDochkin/react-mesto-api-full-gha' target="_blank" rel="noopener noreferrer">Single-page application</a>
                     <img className='portfolio__list-img' src={arrowPath} alt="Arrow icon" />
                 </li>
+                <li className='portfolio__list-line'></li>
             </ul>
 
         </section>
