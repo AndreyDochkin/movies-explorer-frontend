@@ -3,7 +3,7 @@
 
 MovieMatchup is a web application built with Node.js, React, and Express that allows users to search for and save their favorite movies. With an intuitive interface, users can easily explore movies, access detailed information, and manage their saved collection.
 
-## Test accaunt
+## Test account
 - test@test.com
 - 123456
 
